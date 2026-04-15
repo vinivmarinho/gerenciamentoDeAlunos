@@ -2,6 +2,7 @@
 require("dotenv").config(); // Importa dotenv (globalmente) para variáveis de ambiente
 const app = require('./src/app');
 const connectDB = require('./src/config/db');
+
 // Rota teste
 app.get("/", (req, res) => {
     res.send("Servidor está funcionando")
