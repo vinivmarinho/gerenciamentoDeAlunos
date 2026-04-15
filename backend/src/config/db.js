@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
-
+require("dotenv").config(); // Importa dotenv para variáveis de ambiente
 const connectDB = async() => {
     try{
-        await mongoose.connect(`mongodb+srv://vinimarinho2004_db_user:uKC7ixvkuJnbWEz9@cluster0.jubaq7p.mongodb.net/?appName=Cluster0`);
+        await mongoose.connect(process.env.MONGO_URI);
         console.log("MongoDb conectado");
     } catch(error) {
         console.error("Erro ao conectar");
+        console.log(process.env.MONGO_URI)
         console.log(error.message);
         process.exit();
     }

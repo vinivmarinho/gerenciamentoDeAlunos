@@ -1,7 +1,7 @@
 // Importa o app (de outro arquivo) e o cors 
 const app = require('./src/app');
 const connectDB = require('./src/config/db');
-const PORT = 3000;
+require("dotenv").config(); // Importa dotenv (globalmente) para variáveis de ambiente
 
 // Rota teste
 app.get("/", (req, res) => {
@@ -9,9 +9,10 @@ app.get("/", (req, res) => {
 })
 
 // Inicia o servidor
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`)
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${process.env.PORT}`)
 })
 
 // Chama a função que conecta ao mongoDb
 connectDB()
+// Função async que inicia o servidor e conecta ao mongoDB
