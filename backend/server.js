@@ -2,11 +2,21 @@
 require("dotenv").config(); // Importa dotenv (globalmente) para variáveis de ambiente
 const app = require('./src/app');
 const connectDB = require('./src/config/db');
+const createStudent = require("./src/controllers/studentController");
+
 
 // Rota teste
 app.get("/", (req, res) => {
-    res.send("Servidor está funcionando")
+    try{
+        res.send("Servidor está funcionando");
+    } catch(error) {
+        console.error(`Erro: ${error}`);
+    }
 })
+
+// Rota que cria aluno
+app.post("/create", createStudent.createStudent);
+
 
 // Função async que inicia o servidor e conecta ao mongoDB
 const startServer = async() => {
@@ -20,7 +30,8 @@ const startServer = async() => {
     }
 }
 
-startServer();
+startServer(); 
+
 
 
 

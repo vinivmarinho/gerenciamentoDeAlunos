@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 /* Criando Schema (Estrutura de quais informações estarão no banco de dados) para os alunos */
 const studentSchema = new mongoose.Schema({
     name: {
