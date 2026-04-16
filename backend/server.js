@@ -2,7 +2,7 @@
 require("dotenv").config(); // Importa dotenv (globalmente) para variáveis de ambiente
 const app = require('./src/app');
 const connectDB = require('./src/config/db');
-const createStudent = require("./src/controllers/studentController");
+const studentRoutes = require("./src/controllers/studentController");
 
 
 // Rota teste
@@ -15,8 +15,10 @@ app.get("/", (req, res) => {
 })
 
 // Rota que cria aluno
-app.post("/create", createStudent.createStudent);
+app.post("/create", studentRoutes.createStudent);
 
+// Rota que deleta um aluno
+app.delete("/delete/:id", studentRoutes.deleteStudent);
 
 // Função async que inicia o servidor e conecta ao mongoDB
 const startServer = async() => {

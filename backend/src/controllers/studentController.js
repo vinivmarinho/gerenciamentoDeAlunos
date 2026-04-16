@@ -18,4 +18,18 @@ const createStudent = async(req, res) => {
     }
 };
 
-module.exports = { createStudent };
+// Função que deleta o aluno
+const deleteStudent = async(req, res) => {
+    try{
+        const {id } = req.params;
+        await Student.findByIdAndDelete(id);
+        res.send("Aluno deletado");
+    } catch(error) {
+        res.status(500).json({
+            message: "Erro ao deletar aluno",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { createStudent, deleteStudent };
