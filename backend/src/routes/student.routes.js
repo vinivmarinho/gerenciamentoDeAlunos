@@ -8,6 +8,7 @@ router.get("/health", studentsControllers.health);
 router.post("/", studentsControllers.createStudent);
 router.delete("/:id", studentsControllers.deleteStudent);
 router.get("/", studentsControllers.showStudents);
+router.put("/:id", studentsControllers.updateStudent);
 
 module.exports = router;
 

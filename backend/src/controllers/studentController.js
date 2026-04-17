@@ -47,4 +47,24 @@ const showStudents = async(req, res) => {
     }
 };
 
-module.exports = { health, createStudent, deleteStudent, showStudents };
+// Atualiza algum aluno
+const updateStudent = async(req, res) => {
+    try{
+        const { id } = req.params;
+        // Encontra aluno pelo ID e atualiza com a requisição do body
+        const student = await Student.findByIdAndUpdate(
+            id,
+            req.body,
+            { returnDocument: "after" }
+        );
+
+        res.status(200).json({student});
+    } catch(error) {
+        res.status(500).json({
+            message: "Erro ao atualizar aluno",
+            error: error.message
+        });
+    }
+}
+
+module.exports = { health, createStudent, deleteStudent, showStudents, updateStudent };
