@@ -21,9 +21,10 @@ const createStudent = async(req, res) => {
 // Deleta o aluno
 const deleteStudent = async(req, res) => {
     try{
-        const {id } = req.params;
+        const {id } = req.params; // Parâmetros da requisição
+        const student = await Student.findById(id);
         await Student.findByIdAndDelete(id);
-        res.send("Aluno deletado");
+        res.send(`Aluno ${student.name} foi deletado `);
     } catch(error) {
         res.status(500).json({
             message: "Erro ao deletar aluno",
