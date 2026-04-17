@@ -1,5 +1,8 @@
 const Student = require("../models/student");
-
+// Rota teste
+const health = async(req, res) => {
+    res.status(200).json({message: "Rota health encontrada"})
+};
 // Cria algum aluno
 const createStudent = async(req, res) => {
     try{
@@ -44,4 +47,4 @@ const showStudents = async(req, res) => {
     }
 };
 
-module.exports = { createStudent, deleteStudent, showStudents };
+module.exports = { health, createStudent, deleteStudent, showStudents };

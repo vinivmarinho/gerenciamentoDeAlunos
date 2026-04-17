@@ -4,11 +4,10 @@ const router = express.Router();
 const studentsControllers = require("../controllers/studentController");
 
 // Rota de verificação
-router.get("/health", (req, res) => {
-    res.status(200).json({message: "Rota health encontrada"})
-});
+router.get("/health", studentsControllers.health);
+router.post("/", studentsControllers.createStudent);
+router.delete("/:id", studentsControllers.deleteStudent);
+router.get("/", studentsControllers.showStudents);
 
-router.post("/create", studentsControllers.createStudent);
-router.delete("/delete/:id", studentsControllers.deleteStudent);
-router.get("/read", studentsControllers.showStudents);
+module.exports = router;
 
