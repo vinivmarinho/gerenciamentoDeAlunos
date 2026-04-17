@@ -1,6 +1,6 @@
 const Student = require("../models/student");
 
-// Função que cria algum aluno
+// Cria algum aluno
 const createStudent = async(req, res) => {
     try{
         await Student.create({
@@ -18,7 +18,7 @@ const createStudent = async(req, res) => {
     }
 };
 
-// Função que deleta o aluno
+// Deleta o aluno
 const deleteStudent = async(req, res) => {
     try{
         const {id } = req.params;
@@ -30,6 +30,17 @@ const deleteStudent = async(req, res) => {
             error: error.message
         })
     }
-}
+};
 
-module.exports = { createStudent, deleteStudent };
+// Lê todos os alunos
+const showStudents = async(req, res) => {
+    try{
+        const students = await Student.find();
+        res.status(200).json(students);
+
+    } catch(error) {
+        console.error(`Erro: ${error}`)
+    }
+};
+
+module.exports = { createStudent, deleteStudent, showStudents };
