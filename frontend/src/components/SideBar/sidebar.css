@@ -30,11 +30,17 @@
 .nav-item {
     display: flex;
     align-items: center;
+    width: 100%;
     padding: 1rem 1.5rem;
     color: var(--secondary-color);
     text-decoration: none;
     transition: all 0.2s ease;
     border-left: 4px solid transparent;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
 }
 
 .nav-item:hover,
@@ -42,6 +48,10 @@
     background: var(--light-color);
     color: var(--primary-color);
     border-left-color: var(--primary-color);
+}
+
+.nav-item:focus {
+    outline: none;
 }
 
 .nav-item i {

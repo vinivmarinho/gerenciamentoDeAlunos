@@ -1,36 +1,70 @@
 import "./sidebar.css"
 import { useState } from "react";
-export default function SideBar() {
+
+export default function SideBar({ activeSection, setActiveSection }) {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
+
+    const handleMenuClick = (section) => {
+        setActiveSection(section);
+        // Fecha o menu no mobile após clicar
+        setMenuIsOpen(false);
+    };
+
     return(
         <>
             {/* Se menuIsOpen = true, aplica classe "sidebar", senão, aplica as classes "sidebar" e "mobile-open" */}
-            <div className={menuIsOpen ? "sidebar" : "sidebar mobile-open"} id="sidebar">
+            <div className={menuIsOpen ? "sidebar mobile-open" : "sidebar"} id="sidebar">
                 <div className="sidebar-header">
                     <h2><i className="fas fa-graduation-cap"></i> Gestão Alunos</h2>
                 </div>
+
                 <nav className="sidebar-nav">
-                    <a href="#dashboard" className="nav-item active" data-section="dashboard">
+                    <button 
+                        type="button"
+                        className={`nav-item ${activeSection === 'dashboard' ? 'active' : ''}`}
+                        onClick={() => handleMenuClick('dashboard')}
+                    >
                         <i className="fa-solid fa-table-columns"></i> Dashboard
-                    </a>
-                    <a href="#alunos" className="nav-item" data-section="alunos">
+                    </button>
+
+                    <button 
+                        type="button"
+                        className={`nav-item ${activeSection === 'alunos' ? 'active' : ''}`}
+                        onClick={() => handleMenuClick('alunos')}
+                    >
                         <i className="fas fa-users"></i> Alunos
-                    </a>
-                    <a href="#turmas" className="nav-item" data-section="turmas">
+                    </button>
+
+                    <button 
+                        type="button"
+                        className={`nav-item ${activeSection === 'turmas' ? 'active' : ''}`}
+                        onClick={() => handleMenuClick('turmas')}
+                    >
                         <i className="fas fa-chalkboard-teacher"></i> Turmas
-                    </a>
-                    <a href="#presenca" className="nav-item" data-section="presenca">
+                    </button>
+
+                    <button 
+                        type="button"
+                        className={`nav-item ${activeSection === 'presenca' ? 'active' : ''}`}
+                        onClick={() => handleMenuClick('presenca')}
+                    >
                         <i className="fas fa-calendar-check"></i> Presença
-                    </a>
-                    <a href="#financeiro" className="nav-item" data-section="financeiro">
+                    </button>
+
+                    <button 
+                        type="button"
+                        className={`nav-item ${activeSection === 'financeiro' ? 'active' : ''}`}
+                        onClick={() => handleMenuClick('financeiro')}
+                    >
                         <i className="fas fa-money-bill-wave"></i> Financeiro
-                    </a>
+                    </button>
+
                 </nav>
-                
-                
+
             </div>
-            <button onClick={() => setMenuIsOpen(!menuIsOpen)} class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
+            
+            <button onClick={() => setMenuIsOpen(!menuIsOpen)} className="mobile-menu-btn" id="mobileMenuBtn">
+                <i className="fas fa-bars"></i>
             </button>
         </>
     )
