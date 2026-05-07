@@ -8,6 +8,7 @@ import Dashboard from './components/DashBoard/DashBoard.jsx';
 import Students from './components/Students/Students.jsx';
 import Classes from './components/Classes/Classes.jsx';
 import Attendance from './components/Attendance/Attendance.jsx';
+import Finance from './components/Finance/Finance.jsx';
 function App() {
   const [count, setCount] = useState(0)
 
@@ -15,7 +16,7 @@ function App() {
     <>
        <SideBar />
        <main className="main-content">
-          <Attendance />
+          <Finance />
        </main>
     </>
   )
