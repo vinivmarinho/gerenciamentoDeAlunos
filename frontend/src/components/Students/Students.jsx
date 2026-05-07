@@ -1,4 +1,4 @@
-import "./students.css"
+import "./students.css";
 export default function Students() {
     return(
         <section id="students" class="section">

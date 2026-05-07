@@ -6,6 +6,7 @@ import './App.css';
 import SideBar from './components/SideBar/SideBar.jsx';
 import Dashboard from './components/DashBoard/DashBoard.jsx';
 import Students from './components/Students/Students.jsx';
+import Classes from './components/Classes/Classes.jsx';
 function App() {
   const [count, setCount] = useState(0)
 
@@ -13,7 +14,7 @@ function App() {
     <>
        <SideBar />
        <main className="main-content">
-          <Students/>
+          <Classes />
        </main>
     </>
   )
