@@ -4,6 +4,7 @@ export default function SideBar() {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
     return(
         <>
+            {/* Se menuIsOpen = true, aplica classe "sidebar", senão, aplica as classes "sidebar" e "mobile-open" */}
             <div className={menuIsOpen ? "sidebar" : "sidebar mobile-open"} id="sidebar">
                 <div className="sidebar-header">
                     <h2><i className="fas fa-graduation-cap"></i> Gestão Alunos</h2>
