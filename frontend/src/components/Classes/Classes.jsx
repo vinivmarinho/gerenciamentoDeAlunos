@@ -25,8 +25,8 @@ export default function Classes() {
                     </div>
 
                     <p><strong>Horário:</strong> 13h</p>
-                    <div className="ultima-div">
-                        <button className="btn-primary">
+                    <div className="manage-container">
+                        <button className="btn-manage">
                             Gerenciar
                         </button>
                     
