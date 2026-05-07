@@ -1,15 +1,37 @@
 import "./classes.css";
 export default function Classes() {
     return(
-        <section id="turmas" class="section">
-            <div class="page-header">
-                <h1><i class="fas fa-chalkboard-teacher"></i> Gerenciar Turmas</h1>
-                <button class="btn-primary" id="novaTurmaBtn">
-                    <i class="fas fa-plus"></i> Nova Turma
+        <section id="turmas" className="section">
+            <div className="page-header">
+                <h1><i className="fas fa-chalkboard-teacher"></i> Gerenciar Turmas</h1>
+                <button className="btn-primary" id="novaTurmaBtn">
+                    <i className="fas fa-plus"></i> Nova Turma
                 </button>
             </div>
-            <div class="classes-grid" id="classesGrid">
+            <div className="classes-grid" id="classesGrid">
+
                 {/* Turmas ainda serão inseridas */}
+                <div className="class-card">
+
+                    <div className="class-header">
+                        <div className="class-info">
+                            <h3>Turma 1</h3>
+                            <p><strong>Professor:</strong> Fulano</p>
+                        </div>
+                        
+                        <div className="class-stats">
+                            <span className="status-badge">2 alunos</span>
+                        </div>
+                    </div>
+
+                    <p><strong>Horário:</strong> 13h</p>
+                    <div className="ultima-div">
+                        <button className="btn-primary">
+                            Gerenciar
+                        </button>
+                    
+                    </div>
+                </div>
             </div>
         </section>
     )
