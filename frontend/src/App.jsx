@@ -34,6 +34,7 @@ function App() {
     <>
         {/* SideBar controla a mudança do state */}
        <SideBar activeSection={activeSection} setActiveSection={setActiveSection} />
+       <MobileNav activeSection={activeSection} setActiveSection={setActiveSection} />
        <main className="main-content">
           {renderComponent()}
        </main>
