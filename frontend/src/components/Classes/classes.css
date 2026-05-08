@@ -1,4 +1,3 @@
-
 /* Turmas Grid */
 .classes-grid {
     display: grid;
@@ -42,4 +41,11 @@
 }
 .manage-container{
     margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .classes-grid {
+        grid-template-columns: 1fr;
+    }
 }

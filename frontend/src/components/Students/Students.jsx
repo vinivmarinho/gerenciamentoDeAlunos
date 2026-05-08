@@ -1,7 +1,7 @@
 import "./students.css";
 export default function Students() {
     return(
-        <section id="students" class="section">
+        <section id="students">
             <div class="page-header">
                 <h1><i class="fas fa-users"></i> Gerenciar Alunos</h1>
                 <button class="btn-primary" id="novoAlunoBtn">

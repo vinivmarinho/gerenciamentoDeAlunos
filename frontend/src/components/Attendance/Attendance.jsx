@@ -1,7 +1,7 @@
 import "./attendance.css";
 export default function Attendance() {
     return(
-        <section id="attendance" className="section">
+        <section id="attendance">
 
             <div className="page-header">
                 <h1><i className="fas fa-calendar-check"></i> Controle de Presença</h1>

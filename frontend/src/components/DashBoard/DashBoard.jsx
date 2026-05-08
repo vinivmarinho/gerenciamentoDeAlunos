@@ -1,7 +1,7 @@
 import "./dashboard.css";
 export default function Dashboard() {
     return(
-         <section id="dashboard" class="section active">
+         <section id="dashboard">
             <div class="page-header">
                 <h1><i class="fas fa-chart-dashboard"></i> Dashboard</h1>
             </div>

@@ -1,7 +1,7 @@
 import "./finance.css";
 export default function Finance() {
     return(
-        <section id="finance" className="section">
+        <section id="finance">
 
             <div className="page-header">
                 <h1><i className="fas fa-money-bill-wave"></i> Financeiro</h1>

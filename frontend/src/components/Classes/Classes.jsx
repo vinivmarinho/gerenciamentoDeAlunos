@@ -1,7 +1,7 @@
 import "./classes.css";
 export default function Classes() {
     return(
-        <section id="classes" className="section">
+        <section id="classes">
             <div className="page-header">
                 <h1><i className="fas fa-chalkboard-teacher"></i> Gerenciar Turmas</h1>
                 <button className="btn-primary" id="novaTurmaBtn">

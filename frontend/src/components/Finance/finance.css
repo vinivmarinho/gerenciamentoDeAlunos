@@ -28,3 +28,15 @@
 .tab-pane.active {
     display: block;
 }
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .data-table {
+        font-size: 0.9rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
