@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css';
 import SideBar from './components/SideBar/SideBar.jsx';
+import MobileNav from './components/MobileNav/MobileNav.jsx';
 import Dashboard from './components/DashBoard/DashBoard.jsx';
 import Students from './components/Students/Students.jsx';
 import Classes from './components/Classes/Classes.jsx';

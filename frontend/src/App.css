@@ -4,6 +4,14 @@
     min-height: 100vh;
     transition: margin-left 0.3s ease;
 }
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding-bottom: 80px; /* Space for mobile nav */
+    }
+}
 /* Header de todas as seções*/
 .page-header {
     display: flex;
