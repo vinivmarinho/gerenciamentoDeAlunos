@@ -10,7 +10,9 @@ import Finance from './components/Finance/Finance.jsx';
 function App() {
   const [activeSection, setActiveSection] = useState('dashboard');
 
+  // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
+    // Sempre que o state "activeSection" mudar, ele é chamado
     switch(activeSection) {
       case 'dashboard':
         return <Dashboard />;
@@ -29,6 +31,7 @@ function App() {
 
   return (
     <>
+        {/* SideBar controla a mudança do state */}
        <SideBar activeSection={activeSection} setActiveSection={setActiveSection} />
        <main className="main-content">
           {renderComponent()}
