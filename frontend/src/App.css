@@ -5,11 +5,14 @@
     transition: margin-left 0.3s ease;
 }
 
-/* Mobile adjustments */
+/* Ajustes do mobile */
 @media (max-width: 768px) {
     .main-content {
         margin-left: 0;
-        padding-bottom: 80px; /* Space for mobile nav */
+        padding-bottom: 80px; /* Espaço do menu de nav */
+    }
+    .page-header {
+        padding-left: 2rem; /* Espaço do ícone de menu */
     }
 }
 /* Header de todas as seções*/
@@ -72,7 +75,7 @@
 }
 
 
-/* Mobile Bottom Navigation */
+/* Navegação do mobile */
 .mobile-bottom-nav {
     display: none;
     position: fixed;
@@ -111,7 +114,7 @@
 }
 
 
-/* Responsive Design */
+/* Design responsivo */
 @media (max-width: 1024px) {
     .sidebar {
         transform: translateX(-100%);
