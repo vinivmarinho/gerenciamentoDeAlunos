@@ -1,33 +1,28 @@
 import "./dashboard.css";
 import { useEffect, useRef } from "react";
 import { Chart, registerables } from "chart.js";
-Chart.register(...registerables);
+Chart.register(...registerables); // Registra os componentes padrões do Chart.js (gráficos, escalas...)
+
 export default function Dashboard() {
-    // useRef => Hook usado para criar uma referência que guarda um valor entre renderizações
-    // Obs: Alterar o valor da ref não faz o componente re-renderizar, diferente do useState
     // Obs: Referência ao elemento canvas onde o Chart.js desenha o gráfico
     const revenueChartRef = useRef(null);
     const studentsChartRef = useRef(null);
 
-    // Obs: Armazenam as instâncias dos gráficos criados pelo Chart.js
+    // Obs: Armazena as instância dos gráficos e permite destruí-los ou atualizá-los
     const revenueChartInstance = useRef(null);
     const studentsChartInstance = useRef(null);
 
-    // Inicializa os gráficos
     const initCharts = () => {
         // Se canvas (área de desenho do HTML) existir
         if (revenueChartRef.current) {
-            // destrói gráfico antigo pelo track local
+            // destrói gráfico antigo
             if (revenueChartInstance.current) {
                 revenueChartInstance.current.destroy();
                 revenueChartInstance.current = null;
             }
 
             // destrói gráfico antigo anexado ao canvas, se existir
-            const existingRevenueChart = Chart.getChart(revenueChartRef.current);
-            if (existingRevenueChart) {
-                existingRevenueChart.destroy();
-            }
+               
 
             const ctx1 = revenueChartRef.current.getContext("2d"); // Permite usar o canvas em 2 dimensões
             // Criando o gráfico
@@ -61,12 +56,9 @@ export default function Dashboard() {
             if (studentsChartInstance.current) {
                 studentsChartInstance.current.destroy();
                 studentsChartInstance.current = null;
-            }
+            }         
 
-            const existingStudentsChart = Chart.getChart(studentsChartRef.current);
-            if (existingStudentsChart) {
-                existingStudentsChart.destroy();
-            }
+            
 
             studentsChartInstance.current = new Chart(ctx2, {
                 type: "doughnut",
