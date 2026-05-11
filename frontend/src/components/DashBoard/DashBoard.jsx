@@ -99,6 +99,7 @@ export default function Dashboard() {
             <div className="page-header">
                 <h1><i className="fa-solid fa-table-columns"></i> Dashboard</h1>
             </div>
+
             <div className="stats-grid">
                 <div className="stat-card">
                     <div className="stat-icon total-alunos">
@@ -109,6 +110,7 @@ export default function Dashboard() {
                         <p>Total de Alunos</p>
                     </div>
                 </div>
+                
                 <div className="stat-card">
                     <div className="stat-icon receita-mensal">
                         <i className="fas fa-dollar-sign"></i>
@@ -118,6 +120,7 @@ export default function Dashboard() {
                         <p>Receita Mensal</p>
                     </div>
                 </div>
+
                 <div className="stat-card">
                     <div className="stat-icon turmas">
                         <i className="fas fa-chalkboard"></i>
@@ -127,6 +130,7 @@ export default function Dashboard() {
                         <p>Total de Turmas</p>
                     </div>
                 </div>
+
                 <div className="stat-card">
                     <div className="stat-icon presencas">
                         <i className="fas fa-calendar-check"></i>
@@ -136,16 +140,22 @@ export default function Dashboard() {
                         <p>Presença Média</p>
                     </div>
                 </div>
+
             </div>
+
             <div className="charts-grid">
                 <div className="chart-card">
                     <h3>Receita Mensal</h3>
+                    {/* Área do gráfico */}
                     <canvas ref={revenueChartRef} id="revenueChart"></canvas>
                 </div>
+
                 <div className="chart-card">
                     <h3>Alunos por Turma</h3>
+                    {/* Área do gráfico */}
                     <canvas ref={studentsChartRef} id="alunosChart"></canvas>
                 </div>
+
             </div>
         </section>
     )
