@@ -97,7 +97,7 @@ export default function Dashboard() {
     return(
          <section id="dashboard">
             <div className="page-header">
-                <h1><i className="fas fa-chart-dashboard"></i> Dashboard</h1>
+                <h1><i className="fa-solid fa-table-columns"></i> Dashboard</h1>
             </div>
             <div className="stats-grid">
                 <div className="stat-card">

@@ -12,7 +12,7 @@
         padding-bottom: 80px; /* Espaço do menu de nav */
     }
     .page-header {
-        padding-left: 2rem; /* Espaço do ícone de menu */
+        padding-left: 4rem; /* Espaço entre ícone e o menu */
     }
 }
 /* Header de todas as seções*/
