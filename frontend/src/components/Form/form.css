@@ -1,0 +1,93 @@
+/* Camada que fica atrás do form */
+.form-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(6px);
+}
+
+.form-modal {
+    position: relative; /* Vira referência de posição para elementos "absolute" dentro */
+    width: 100%;
+    max-width: 480px;
+}
+
+/* Botão de fechar o form */
+.form-modal-close {
+    position: absolute; /* Posição referente ao pai que possui position: relative*/
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    color: #111827;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.form-modal-close:hover {
+    background-color: #d1d5db;
+}
+
+.student-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 480px;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+}
+
+.student-form h2 {
+    margin: 0 0 8px;
+    font-size: 1.35rem;
+    color: #1f2937;
+}
+
+.student-form label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.student-form input,
+.student-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.student-form input:focus,
+.student-form select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.student-form button {
+    margin-top: 8px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.student-form button:hover {
+    background-color: #1d4ed8;
+}
