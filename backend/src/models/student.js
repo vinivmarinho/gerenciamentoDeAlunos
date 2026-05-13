@@ -6,8 +6,8 @@ const studentSchema = new mongoose.Schema({
         required: true
     },
 
-    age: {
-        type: Number,
+    email: {
+        type: String,
         required: true
     },
     monthlyFee: {
@@ -15,7 +15,7 @@ const studentSchema = new mongoose.Schema({
         required: true,
         min: 0 // Evita mensalidade negativa
     },
-    goal: {
+    studentClass: {
         type: String,
         required: true
     }

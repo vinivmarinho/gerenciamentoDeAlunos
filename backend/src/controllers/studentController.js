@@ -3,19 +3,25 @@ const Student = require("../models/student");
 const health = async(req, res) => {
     res.status(200).json({message: "Rota health encontrada"})
 };
+
 // Cria algum aluno
 const createStudent = async(req, res) => {
     try{
-        await Student.create({
-            name: "Vinícius",
-            age: 21,
-            monthlyFee: 150,
-            goal: "Wants to improve"
+        const { name, email, monthlyFee, studentClass } = req.body;
+
+        const student = await Student.create({
+            name,
+            email,
+            monthlyFee,
+            studentClass
         })
-        res.send("Criou aluno")
+
+        res.status(201).json({
+            message: `Aluno(a) ${student.name} criado`
+        })
     } catch(error) {
         res.status(500).json({
-            message: "Erro ao criar aluno",
+            message: "Erro ao criar aluno(a)",
             error: error.message
         })
     }
