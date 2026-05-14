@@ -2,8 +2,7 @@ import "./form.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-// http://localhost:3000/students (método POST)
-export default function Form() {
+export default function Form({ showStudents, showForm, setShowForm }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
@@ -11,7 +10,7 @@ export default function Form() {
 
 
     async function createStudent(event) {
-        // Impede que a página recarregue
+        // Impede o reload da página
         event.preventDefault();
 
         try{
@@ -29,13 +28,17 @@ export default function Form() {
 
                 
             })
+            /* Lista de alunos vindo de Students.jsx. Mostra todos os cadastrados na tela */
+            await showStudents();
+
             setName("");
             setEmail("");
             setMonthlyFee("");
             setStudentClass("");
-
-            toast.success("Aluno(a) cadastrado com sucesso✅")
-
+            
+            toast.success("Aluno(a) cadastrado com sucesso✅");
+            
+            setShowForm(false); // Form desaparece
         } catch(error) {
             toast.error("Não foi possível cadastrar o aluno")
         }   
@@ -68,15 +71,18 @@ export default function Form() {
             />
 
             <label htmlFor="turma">Turma</label>
-            <input
-                type="text"
+            <select
                 id="turma"
                 name="turma"
-                placeholder="Ex: 3A"
                 value={studentClass}
                 onChange={(event) => setStudentClass(event.target.value)}
                 required
-            />
+            >
+                <option value="">Seleciona uma turma</option>
+                <option value="Turma A">Turma A</option>
+                <option value="Turma B">Turma B</option>
+            </select>
+
 
             <label htmlFor="monthlyFee">Mensalidade</label>
             <input

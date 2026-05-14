@@ -91,7 +91,7 @@ export default function Students() {
                         >
                             X
                         </button>
-                        <Form />
+                        <Form showStudents={showStudents} showForm={showForm} setShowForm={setShowForm}/>
                     </div>
                 </div>
             )}
