@@ -7,6 +7,9 @@ import Students from './components/Students/Students.jsx';
 import Classes from './components/Classes/Classes.jsx';
 import Attendance from './components/Attendance/Attendance.jsx';
 import Finance from './components/Finance/Finance.jsx';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const [activeSection, setActiveSection] = useState('dashboard');
 
@@ -31,6 +34,7 @@ function App() {
 
   return (
     <>
+        <ToastContainer />
         {/* SideBar controla a mudança do state */}
        <SideBar activeSection={activeSection} setActiveSection={setActiveSection} />
        <MobileNav activeSection={activeSection} setActiveSection={setActiveSection} />

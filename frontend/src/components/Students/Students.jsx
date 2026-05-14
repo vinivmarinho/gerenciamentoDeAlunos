@@ -32,7 +32,7 @@ export default function Students() {
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Turma</th>
-                            <th>Status</th>
+                            <th>Mensalidade</th>
                             <th>Ações</th>
                         </tr>
                     </thead>

@@ -1,8 +1,48 @@
 import "./form.css";
+import { useState } from "react";
+import { toast } from "react-toastify";
+
+// http://localhost:3000/students (método POST)
 export default function Form() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [monthlyFee, setMonthlyFee] = useState("");
+    const [studentClass, setStudentClass] = useState("")
+
+
+    async function createStudent(event) {
+        // Impede que a página recarregue
+        event.preventDefault();
+
+        try{
+            const response = await fetch("http://localhost:3000/students", {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    monthlyFee: monthlyFee,
+                    studentClass: studentClass
+                }),
+
+                
+            })
+            setName("");
+            setEmail("");
+            setMonthlyFee("");
+            setStudentClass("");
+
+            toast.success("Aluno(a) cadastrado com sucesso✅")
+
+        } catch(error) {
+            toast.error("Não foi possível cadastrar o aluno")
+        }   
+    } 
 
     return(
-        <form className="student-form">
+        <form className="student-form" onSubmit={createStudent}>
             <h2>Cadastrar novo aluno</h2>
 
             <label htmlFor="nome">Nome</label>
@@ -11,8 +51,8 @@ export default function Form() {
                 id="nome"
                 name="nome"
                 placeholder="Digite o nome do aluno"
-                // value={student.nome}
-                // onChange={handleChange}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
                 required
             />
 
@@ -22,8 +62,8 @@ export default function Form() {
                 id="email"
                 name="email"
                 placeholder="Digite o email do aluno"
-                // value={student.email}
-                // onChange={handleChange}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 required
             />
 
@@ -33,22 +73,23 @@ export default function Form() {
                 id="turma"
                 name="turma"
                 placeholder="Ex: 3A"
-                // value={student.turma}
-                // onChange={handleChange}
+                value={studentClass}
+                onChange={(event) => setStudentClass(event.target.value)}
                 required
             />
 
-            <label htmlFor="status">Status</label>
-            <select
-                id="status"
-                name="status"
-                // value={student.status}
-                // onChange={handleChange}
+            <label htmlFor="monthlyFee">Mensalidade</label>
+            <input
+                type="Number"
+                id="monthlyFee"
+                name="MonthlyFee"
+                value={monthlyFee}
+                onChange={(event) => setMonthlyFee(event.target.value)}
                 required
             >
-                <option >Ativo</option>
-                <option >Inativo</option>
-            </select>
+            </input>
+
+        
 
             <button type="submit">Cadastrar aluno</button>
         </form>
