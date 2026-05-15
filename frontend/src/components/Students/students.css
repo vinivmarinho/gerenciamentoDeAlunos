@@ -272,4 +272,11 @@
     .data-table td {
         padding: 0.5rem 0;
     }
+    
+    /* Aumenta tamanho dos botões "editar" e "deletar */
+    .action-btn {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
 }
