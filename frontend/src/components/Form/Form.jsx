@@ -15,7 +15,7 @@ export default function Form({ showStudents, showForm, setShowForm }) {
         console.log(name, email, monthlyFee, studentClass, status);
 
         try{
-            const response = await fetch("http://localhost:3000/students", {
+            const response = await fetch("https://gerenciamentodealunos.onrender.com/students", {
                 method: "POST", 
                 headers: {
                     "Content-Type": "application/json"

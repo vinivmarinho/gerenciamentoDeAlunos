@@ -7,7 +7,7 @@ export default function Students() {
 
    async function showStudents() {
         try{
-            const response = await fetch("http://localhost:3000/students");
+            const response = await fetch("https://gerenciamentodealunos.onrender.com/students");
             const data = await response.json();
             setStudents(data);
         } catch(error) {
