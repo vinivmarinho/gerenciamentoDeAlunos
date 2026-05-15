@@ -7,13 +7,14 @@ const health = async(req, res) => {
 // Cria algum aluno
 const createStudent = async(req, res) => {
     try{
-        const { name, email, monthlyFee, studentClass } = req.body;
+        const { name, email, monthlyFee, studentClass, status } = req.body;
 
         const student = await Student.create({
             name,
             email,
             monthlyFee,
-            studentClass
+            studentClass,
+            status
         })
 
         res.status(201).json({

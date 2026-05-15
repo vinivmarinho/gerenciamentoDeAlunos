@@ -49,6 +49,7 @@ export default function Students() {
                             <th>Email</th>
                             <th>Turma</th>
                             <th>Mensalidade</th>
+                            <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>

@@ -6,8 +6,8 @@ export default function Form({ showStudents, showForm, setShowForm }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
-    const [studentClass, setStudentClass] = useState("")
-
+    const [studentClass, setStudentClass] = useState("");
+    const [status, setStatus] = useState("")
 
     async function createStudent(event) {
         // Impede o reload da página
@@ -23,7 +23,8 @@ export default function Form({ showStudents, showForm, setShowForm }) {
                     name: name,
                     email: email,
                     monthlyFee: monthlyFee,
-                    studentClass: studentClass
+                    studentClass: studentClass,
+                    status: status
                 }),
 
                 
@@ -94,6 +95,18 @@ export default function Form({ showStudents, showForm, setShowForm }) {
                 required
             >
             </input>
+
+            <label htmlFor="status">Status</label>
+            <select
+                id="status"
+                name="status"
+                value={status}
+                onChange={(event) => setStatus(event.target.value)}
+                required
+            >
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+            </select>
 
         
 

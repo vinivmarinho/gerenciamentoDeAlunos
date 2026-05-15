@@ -18,7 +18,12 @@ const studentSchema = new mongoose.Schema({
     studentClass: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        required: true
     }
+    
 }, {
     timestamps: true // Faz o mongoDB criar data de criação e atualização de um aluno
     }
