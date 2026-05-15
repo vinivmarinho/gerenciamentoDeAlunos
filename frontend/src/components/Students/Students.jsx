@@ -64,12 +64,13 @@ export default function Students() {
                                     <td>{student.email}</td>
                                     <td>{student.studentClass}</td>
                                     <td>R$ {student.monthlyFee}</td>
+                                    <td>{student.status}</td>
                                     <td>
-                                        <button class="action-btn action-edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
+                                        <button className="action-btn action-edit" title="Editar">
+                                            <i className="fas fa-edit"></i>
                                         </button>
-                                        <button class="action-btn action-delete" title="Excluir">
-                                            <i class="fas fa-trash"></i>
+                                        <button className="action-btn action-delete" title="Excluir">
+                                            <i className="fas fa-trash"></i>
                                         </button>
                                     </td>
                                 </tr>

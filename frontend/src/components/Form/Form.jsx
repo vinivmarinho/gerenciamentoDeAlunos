@@ -7,11 +7,12 @@ export default function Form({ showStudents, showForm, setShowForm }) {
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
     const [studentClass, setStudentClass] = useState("");
-    const [status, setStatus] = useState("")
+    const [status, setStatus] = useState("ativo")
 
     async function createStudent(event) {
         // Impede o reload da página
         event.preventDefault();
+        console.log(name, email, monthlyFee, studentClass, status);
 
         try{
             const response = await fetch("http://localhost:3000/students", {
@@ -27,8 +28,12 @@ export default function Form({ showStudents, showForm, setShowForm }) {
                     status: status
                 }),
 
-                
             })
+
+            if (!response.ok) {
+                throw new Error("Erro ao criar o aluno")
+            };
+            
             /* Lista de alunos vindo de Students.jsx. Mostra todos os cadastrados na tela */
             await showStudents();
 
@@ -36,7 +41,8 @@ export default function Form({ showStudents, showForm, setShowForm }) {
             setEmail("");
             setMonthlyFee("");
             setStudentClass("");
-            
+            setStatus("");
+
             toast.success("Aluno(a) cadastrado com sucesso✅");
             
             setShowForm(false); // Form desaparece
@@ -106,6 +112,7 @@ export default function Form({ showStudents, showForm, setShowForm }) {
             >
                 <option value="ativo">Ativo</option>
                 <option value="inativo">Inativo</option>
+
             </select>
 
         
