@@ -46,11 +46,13 @@
     background: white;
     border-radius: 16px;
     box-shadow: var(--shadow);
-    overflow: hidden;
+    overflow-x: auto; /* Permite rolagem horizontal */
+    overflow-y: hidden;
 }
 
 .data-table {
     width: 100%;
+    min-width: 820px;
     border-collapse: collapse;
 }
 
@@ -66,6 +68,12 @@
 .data-table td {
     padding: 1rem;
     border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th:last-child,
+.data-table td:last-child {
+    width: 96px;
+    white-space: nowrap;
 }
 
 .data-table tr:hover {
@@ -113,9 +121,7 @@
     border-radius: 20px;
     font-size: 1.8rem;
     font-weight: 600;
-    color: orange;
 }
-/* Tamanho => 60.33 x 25 */
 
 .status-ativo {
     background-color: #dcfce7;
