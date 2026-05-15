@@ -257,9 +257,10 @@
     }
 
     .status-badge {
-        width: 60.33px;
+        width: auto;
+        min-width: 70.33px;
         font-size: 0.75rem;
-        padding: 0.25rem 0.4rem;
+        padding: 0.25rem 0.5rem;
     }
 }
 
