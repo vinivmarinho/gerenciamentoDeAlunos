@@ -102,6 +102,31 @@
     background: #fee2e2; 
 }
 
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70.33px;
+    height: 25px;
+    box-sizing: border-box;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: orange;
+}
+/* Tamanho => 60.33 x 25 */
+
+.status-ativo {
+    background-color: #dcfce7;
+    color: var(--success-color);
+
+}
+.status-inativo {
+    background-color: #fee2e2;
+    color: var(--danger-color);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .main-content {

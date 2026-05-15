@@ -7,7 +7,7 @@ export default function Form({ showStudents, showForm, setShowForm }) {
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
     const [studentClass, setStudentClass] = useState("");
-    const [status, setStatus] = useState("ativo")
+    const [status, setStatus] = useState("ativo") // Status precisa ter valor inicial, senão o <select> fica sem opção selecionada
 
     async function createStudent(event) {
         // Impede o reload da página

@@ -64,7 +64,7 @@ export default function Students() {
                                     <td>{student.email}</td>
                                     <td>{student.studentClass}</td>
                                     <td>R$ {student.monthlyFee}</td>
-                                    <td>{student.status}</td>
+                                    <td ><span className={`status-badge status-${student.status}`}>{student.status}</span></td>
                                     <td>
                                         <button className="action-btn action-edit" title="Editar">
                                             <i className="fas fa-edit"></i>
