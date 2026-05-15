@@ -142,6 +142,125 @@
     .search-filter {
         flex-direction: column;
     }
+
+    /* Substitui o visual de tabela por um visual de card pra cada aluno */
+    .table-container {
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    /* Zera a largura para que caiba na tela */
+    .data-table {
+        min-width: 0;
+        /* Faz a tabela se comportar como um bloco comum, permitindo transformar as linhas em cards. */
+        display: block;
+    }
+
+    /* Esconde o cabeçalho  */
+    .data-table thead {
+        display: none;
+    }
+
+    /* Cria espacamento vertical entre os cards dos alunos. */
+    .data-table tbody {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    /* Transforma cada linha da tabela em um card individual. */
+    .data-table tr {
+        display: block;
+        padding: 0.85rem;
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+    }
+
+
+
+    /* Organiza cada informação do aluno em uma linha com label de um lado e valor do outro. */
+    .data-table td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.55rem 0;
+        border-bottom: 1px solid var(--border-color);
+        overflow-wrap: anywhere; /* Permite a quebra de texto em qualquer lugar*/
+    }
+
+    /* Estiliza os labels que aparecem antes dos valores dentro do card */
+    .data-table td::before {
+        color: var(--secondary-color);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    /* Remove a divisoria da ultima linha do card*/
+    .data-table td:last-child {
+        border-bottom: none;
+    }
+    
+    /* Esconde Foto e Email no mobile */
+    .data-table th:nth-child(1),
+    .data-table td:nth-child(1),
+    .data-table th:nth-child(3),
+    .data-table td:nth-child(3) {
+        display: none;
+    }
+
+    /* Nome vira o título do card do aluno */
+    .data-table td:nth-child(2) {
+        display: block;
+        padding-top: 0;
+        color: var(--dark-color);
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .data-table td:nth-child(2)::before {
+        content: "Nome";
+        display: block;
+        margin-bottom: 0.2rem;
+    }
+
+    /* Labels exibidos no card já que o cabeçalho da tabela fica escondido. */
+    .data-table td:nth-child(4)::before {
+        content: "Turma";
+    }
+
+    .data-table td:nth-child(5)::before {
+        content: "Mensalidade";
+    }
+
+    .data-table td:nth-child(6)::before {
+        content: "Status";
+    }
+
+    .data-table td:last-child::before {
+        content: "Ações";
+    }
+
+    .data-table th:last-child,
+    .data-table td:last-child {
+        width: auto;
+        white-space: normal;
+    }
+
+    .action-btn {
+        margin: 0;
+        padding: 0.5rem;
+    }
+
+    .status-badge {
+        width: 60.33px;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.4rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -149,8 +268,7 @@
         font-size: 0.9rem;
     }
     
-    .data-table th,
     .data-table td {
-        padding: 0.75rem 0.5rem;
+        padding: 0.5rem 0;
     }
 }
