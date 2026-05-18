@@ -110,6 +110,76 @@
     background: #fee2e2; 
 }
 
+/* Backdrop do container de confirmar remoção de aluno */
+.confirm-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.45);
+}
+
+/* Card de confirmação de remoção de aluno*/
+.confirm-delete-card {
+    width: min(420px, 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.confirm-delete-card h2 {
+    margin: 0 0 0.75rem;
+    color: var(--dark-color);
+    font-size: 1.25rem;
+}
+
+.confirm-delete-card p {
+    margin: 0;
+    color: var(--secondary-color);
+    line-height: 1.5;
+}
+
+
+.confirm-delete-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.btn-cancel,
+.btn-danger {
+    border: none;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel {
+    background: var(--light-color);
+    color: var(--secondary-color);
+}
+
+.btn-cancel:hover {
+    background: var(--border-color);
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    filter: brightness(0.95);
+}
+
 .status-badge {
     display: inline-flex;
     align-items: center;

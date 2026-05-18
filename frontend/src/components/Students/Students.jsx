@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 export default function Students() {
     const [showForm, setShowForm] = useState(false);
     const [students, setStudents] = useState([]);
+    const [studentToDelete, setStudentToDelete] = useState(null);
 
    async function showStudents() {
         try{
@@ -27,6 +28,7 @@ export default function Students() {
             }
 
             await showStudents();
+            setStudentToDelete(null);
             toast.success("Aluno(a) deletado com sucesso");
         } catch(error) {
             console.error(`Erro: ${error}`);
@@ -36,7 +38,11 @@ export default function Students() {
 
    // Chama os dados ao abrir a página:
    useEffect(() => {
-        showStudents();
+        async function loadStudents() {
+            await showStudents();
+        }
+
+        loadStudents();
    }, []);
 
     return(
@@ -95,7 +101,7 @@ export default function Students() {
                                         <button
                                             className="action-btn action-delete"
                                             title="Excluir"
-                                            onClick={() => deleteStudent(studentId)}
+                                            onClick={() => setStudentToDelete({ ...student, id: studentId })}
                                         >
                                             <i className="fas fa-trash"></i>
                                         </button>
@@ -121,6 +127,33 @@ export default function Students() {
                             X
                         </button>
                         <Form showStudents={showStudents} setShowForm={setShowForm}/>
+                    </div>
+                </div>
+            )}
+            
+            {studentToDelete && (
+                <div className="confirm-modal-backdrop" onClick={() => setStudentToDelete(null)}>
+                    <div className="confirm-delete-card" onClick={(event) => event.stopPropagation()}>
+                        <h2>Excluir aluno</h2>
+                        <p>
+                            Tem certeza de que deseja excluir o(a) aluno(a) "{studentToDelete.name}"?
+                        </p>
+                        <div className="confirm-delete-actions">
+                            <button
+                                type="button"
+                                className="btn-cancel"
+                                onClick={() => setStudentToDelete(null)}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                type="button"
+                                className="btn-danger"
+                                onClick={() => deleteStudent(studentToDelete.id)}
+                            >
+                                Excluir
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
