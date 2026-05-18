@@ -1,8 +1,10 @@
 import "./students.css";
 import { useState, useEffect } from "react";
 import Form from "../Form/Form.jsx";
+import { toast } from "react-toastify";
+
 export default function Students() {
-   const [showForm, setShowForm] = useState(false);
+    const [showForm, setShowForm] = useState(false);
     const [students, setStudents] = useState([]);
 
    async function showStudents() {
@@ -14,9 +16,27 @@ export default function Students() {
             console.error(`Erro: ${error}`)
         }
    }
+   async function deleteStudent(id) {
+        try {
+            const response = await fetch(`https://gerenciamentodealunos.onrender.com/students/${id}`, {
+                method: "DELETE"
+            });
+
+            if (!response.ok) {
+                throw new Error("Erro ao deletar o aluno");
+            }
+
+            await showStudents();
+            toast.success("Aluno(a) deletado com sucesso");
+        } catch(error) {
+            console.error(`Erro: ${error}`);
+            toast.error("Não foi possível deletar o aluno");
+        }
+   }
+
    // Chama os dados ao abrir a página:
    useEffect(() => {
-    showStudents();
+        showStudents();
    }, []);
 
     return(
@@ -57,8 +77,11 @@ export default function Students() {
                         {/* Dados do banco de dados serão inseridos aqui*/  }
                         
                         {students.map(student => {
+                            // Usa "_id" (MongoDB). Se não existir, usa "id.""
+                            const studentId = student._id ?? student.id;
+
                             return(
-                                <tr key={student.id}>
+                                <tr key={studentId}>
                                     <td className="avatar">👤</td>
                                     <td>{student.name}</td>
                                     <td>{student.email}</td>
@@ -69,7 +92,11 @@ export default function Students() {
                                         <button className="action-btn action-edit" title="Editar">
                                             <i className="fas fa-edit"></i>
                                         </button>
-                                        <button className="action-btn action-delete" title="Excluir">
+                                        <button
+                                            className="action-btn action-delete"
+                                            title="Excluir"
+                                            onClick={() => deleteStudent(studentId)}
+                                        >
                                             <i className="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -93,7 +120,7 @@ export default function Students() {
                         >
                             X
                         </button>
-                        <Form showStudents={showStudents} showForm={showForm} setShowForm={setShowForm}/>
+                        <Form showStudents={showStudents} setShowForm={setShowForm}/>
                     </div>
                 </div>
             )}

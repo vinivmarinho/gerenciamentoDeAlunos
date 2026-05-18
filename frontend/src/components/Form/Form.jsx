@@ -2,7 +2,7 @@ import "./form.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function Form({ showStudents, showForm, setShowForm }) {
+export default function Form({ showStudents, setShowForm }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
@@ -46,7 +46,7 @@ export default function Form({ showStudents, showForm, setShowForm }) {
             toast.success("Aluno(a) cadastrado com sucesso✅");
             
             setShowForm(false); // Form desaparece
-        } catch(error) {
+        } catch {
             toast.error("Não foi possível cadastrar o aluno")
         }   
     } 
