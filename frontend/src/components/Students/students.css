@@ -41,6 +41,23 @@
     border-color: var(--primary-color);
 }
 
+/* Card de carregamento */
+.loading-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.loading-card p {
+    margin: 0;
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
 /* Data Table */
 .table-container {
     background: white;

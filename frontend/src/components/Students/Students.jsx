@@ -7,14 +7,18 @@ export default function Students() {
     const [showForm, setShowForm] = useState(false);
     const [students, setStudents] = useState([]);
     const [studentToDelete, setStudentToDelete] = useState(null);
+    const [loading, setLoading] = useState(true);
 
    async function showStudents() {
         try{
+            setLoading(true);
             const response = await fetch("https://gerenciamentodealunos.onrender.com/students");
             const data = await response.json();
             setStudents(data);
         } catch(error) {
             console.error(`Erro: ${error}`)
+        } finally {
+            setLoading(false);
         }
    }
    async function deleteStudent(id) {
@@ -66,6 +70,11 @@ export default function Students() {
                     <option value="inativo">Inativo</option>
                 </select>
             </div>
+            {loading ? (
+                <div className="loading-card">
+                    <p>Carregando os alunos...</p>
+                </div>
+            ) : (
             <div className="table-container">
                 <table className="data-table">
                     <thead>
@@ -113,6 +122,7 @@ export default function Students() {
                     </tbody>
                 </table>
             </div>
+            )}
             {showForm && (
                 /* Ao clicar fora do form, ele desaparece*/
                 <div className="form-modal-backdrop" onClick={() => setShowForm(false)}>
