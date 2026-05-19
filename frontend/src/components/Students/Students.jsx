@@ -1,5 +1,6 @@
 import "./students.css";
-import { useState, useEffect } from "react";
+// useRef: guarda referência ao DOM do campo de busca (usado para detectar clique fora)
+import { useState, useEffect, useRef } from "react";
 import Form from "../Form/Form.jsx";
 import { toast } from "react-toastify";
 
@@ -8,6 +9,14 @@ export default function Students() {
     const [students, setStudents] = useState([]);
     const [studentToDelete, setStudentToDelete] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    // Texto de "Buscar aluno"
+    const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
+    // Controla se a lista de sugestões (dropdown) está visível
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    // Aponta para o div que envolve input + dropdown (para fechar ao clicar fora)
+    const autoCompleteRef = useRef(null);
 
    async function showStudents() {
         try{
@@ -21,6 +30,7 @@ export default function Students() {
             setLoading(false);
         }
    }
+
    async function deleteStudent(id) {
         try {
             const response = await fetch(`https://gerenciamentodealunos.onrender.com/students/${id}`, {
@@ -42,17 +52,49 @@ export default function Students() {
 
    // Chama os dados ao abrir a página:
    useEffect(() => {
-        async function loadStudents() {
-            await showStudents();
+        showStudents();
+   }, []);
+
+
+   // Fecha o dropdown de sugestões quando o usuário clica em qualquer lugar fora do campo de busca
+   useEffect(() => {
+        function handleClickOutside(event) {
+            /* Se o elemento "autoComplete" existir e o clique acontece fora dele */
+            if (autoCompleteRef.current && !autoCompleteRef.current.contains(event.target)) {
+                setShowSuggestions(false);
+            }
         }
 
-        loadStudents();
+        /* Quando houver cliques do mouse, executa "handleClickOutside" */
+        document.addEventListener("mousedown", handleClickOutside);
+        /* Remove o listener quando o componente desmontar */
+        return () => document.removeEventListener("mousedown", handleClickOutside);
    }, []);
+
+   // Normaliza o texto da busca (sem espaços extras, tudo minúsculo) para comparar nomes sem erro de maiúscula
+   const normalizedQuery = searchQuery.trim().toLowerCase();
+
+   // Lista exibida no autocomplete: alunos cujo nome contém o que foi digitado
+   const suggestions = normalizedQuery ? students.filter((student) => student.name.toLowerCase().includes(normalizedQuery)) : [];
+
+   // Alunos que aparecem na tabela: filtrados por nome digitado E por status selecionado
+   const filteredStudents = students.filter((student) => {
+        const matchesName = normalizedQuery === "" ? true : student.name.toLowerCase().includes(normalizedQuery);
+        const matchesStatus = statusFilter === "" ? true : student.status === statusFilter;
+
+        return matchesName && matchesStatus;
+   });
+
+   // Ao clicar em uma sugestão, preenche o input com o nome completo e esconde o dropdown
+   function handleSelectSuggestion(name) {
+        setSearchQuery(name);
+        setShowSuggestions(false);
+   }
 
     return(
         <section id="students">
+            
             <div className="page-header">
-                {/* O "onClick" aqui está Testando a manipulação dos dados vindo do backend */}
                 <h1><i className="fas fa-users"></i> Gerenciar Alunos</h1>
                 <button
                     onClick={() => setShowForm(true)}
@@ -62,9 +104,58 @@ export default function Students() {
                     <i className="fas fa-plus"></i> Novo Aluno
                 </button>
             </div>
+            
             <div className="search-filter">
-                <input type="text" id="searchAlunos" placeholder="Buscar aluno..."></input>
-                <select id="filterStatus">
+                {/* Container do input + dropdown; ref permite detectar clique fora */}
+                <div className="search-autocomplete" ref={autoCompleteRef}>
+                    {/* Input controlado: value vem do React (searchQuery), não do DOM sozinho */}
+                    <input
+                        type="text"
+                        id="searchAlunos"
+                        placeholder="Buscar aluno..."
+                        value={searchQuery}
+                        onChange={(event) => {
+                            setSearchQuery(event.target.value);
+                            setShowSuggestions(true); // mostra sugestões enquanto digita
+                        }}
+                        onFocus={() => setShowSuggestions(true)} // reabre sugestões ao focar de novo
+                        autoComplete="off" // evita sugestões nativas do navegador sobrepondo as nossas
+                        aria-autocomplete="list"
+                        aria-expanded={showSuggestions && suggestions.length > 0}
+                        aria-controls="searchAlunosSuggestions"
+                    />
+                    {/* Dropdown: só aparece se há texto na busca e existem alunos correspondentes */}
+                    {showSuggestions && suggestions.length > 0 && (
+                        <ul
+                            id="searchAlunosSuggestions"
+                            className="autocomplete-list"
+                            role="listbox"
+                        >
+                            {suggestions.map((student) => {
+                                const studentId = student._id ?? student.id;
+
+                                return (
+                                    <li key={studentId} role="option">
+                                        <button
+                                            type="button"
+                                            className="autocomplete-item"
+                                            onClick={() => handleSelectSuggestion(student.name)}
+                                        >
+                                            <span className="autocomplete-name">{student.name}</span>
+                                            <span className="autocomplete-meta">{student.email}</span>
+                                        </button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )}
+                </div>
+                {/* Select controlado: value ligado ao statusFilter para filtrar a tabela junto com a busca */}
+                <select
+                    id="filterStatus"
+                    value={statusFilter}
+                    onChange={(event) => setStatusFilter(event.target.value)}
+                >
                     <option value="">Todos os Status</option>
                     <option value="ativo">Ativo</option>
                     <option value="inativo">Inativo</option>
@@ -72,10 +163,11 @@ export default function Students() {
             </div>
             {loading ? (
                 <div className="loading-card">
-                    <p>Carregando os alunos...</p>
+                    <p>Carregando os alunos... Aguarde alguns segundos.</p>
                 </div>
             ) : (
             <div className="table-container">
+
                 <table className="data-table">
                     <thead>
                         <tr>
@@ -89,9 +181,16 @@ export default function Students() {
                         </tr>
                     </thead>
                     <tbody id="alunosTable">
-                        {/* Dados do banco de dados serão inseridos aqui*/  }
-                        
-                        {students.map(student => {
+
+
+                        {filteredStudents.length === 0 ? (
+                            <tr>
+                                <td colSpan="7" className="empty-search">
+                                    Nenhum aluno encontrado.
+                                </td>
+                            </tr>
+
+                        ) : filteredStudents.map(student => {
                             // Usa "_id" (MongoDB). Se não existir, usa "id.""
                             const studentId = student._id ?? student.id;
 
@@ -122,6 +221,7 @@ export default function Students() {
                     </tbody>
                 </table>
             </div>
+
             )}
             {showForm && (
                 /* Ao clicar fora do form, ele desaparece*/

@@ -41,6 +41,81 @@
     border-color: var(--primary-color);
 }
 
+/* --- Autocomplete da busca de alunos --- */
+
+/* Envolve o input; position relative para o dropdown ficar posicionado embaixo dele */
+.search-autocomplete {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Input ocupa toda a largura do container de busca */
+.search-autocomplete input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Lista suspensa com os nomes que batem com o que foi digitado */
+.autocomplete-list {
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.35rem 0;
+    list-style: none;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+/* Cada linha clicável do dropdown (nome + email) */
+.autocomplete-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    transition: background 0.15s ease;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item:focus-visible {
+    background: var(--light-color);
+    outline: none;
+}
+
+/* Nome do aluno na sugestão */
+.autocomplete-name {
+    font-weight: 600;
+    color: var(--dark-color, #1e293b);
+}
+
+/* Email secundário abaixo do nome na sugestão */
+.autocomplete-meta {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+}
+
+/* Mensagem na tabela quando busca/filtro não retorna nenhum aluno */
+.empty-search {
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: 500;
+    padding: 2rem 1rem !important;
+}
+
 /* Card de carregamento */
 .loading-card {
     display: flex;
