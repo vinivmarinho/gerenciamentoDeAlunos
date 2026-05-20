@@ -3,7 +3,11 @@ import { useEffect, useRef } from "react";
 import { Chart, registerables } from "chart.js";
 Chart.register(...registerables); // Registra os componentes padrões do Chart.js (gráficos, escalas...)
 
-export default function Dashboard({ totalMonthlyFees = 0, studentsCount = 0 }) {
+export default function Dashboard({
+    totalMonthlyFees = 0,
+    studentsCount = 0,
+    activeStudentsPercentage = 0,
+}) {
     // Obs: Referência ao elemento canvas onde o Chart.js desenha o gráfico
     const revenueChartRef = useRef(null);
     const studentsChartRef = useRef(null);
@@ -125,7 +129,7 @@ export default function Dashboard({ totalMonthlyFees = 0, studentsCount = 0 }) {
                     </div>
                     <div className="stat-info">
                         <h3 id="totalTurmas">0</h3>
-                        <p>Total de Turmas</p>
+                        <p>Total de alunos ativos</p>
                     </div>
                 </div>
 
@@ -134,8 +138,8 @@ export default function Dashboard({ totalMonthlyFees = 0, studentsCount = 0 }) {
                         <i className="fas fa-calendar-check"></i>
                     </div>
                     <div className="stat-info">
-                        <h3 id="totalPresencas">0%</h3>
-                        <p>Alunos ativos</p>
+                        <h3 id="totalPresencas">{activeStudentsPercentage}%</h3>
+                        <p>Porcentagem de alunos ativos</p>
                     </div>
                 </div>
 

@@ -5,3 +5,14 @@ export function getTotalMonthlyFees(students) {
         return total + Number(student.monthlyFee || 0);
     }, 0)
 }
+
+
+export function getActiveStudentsPercentage(students) {
+    if (!students.length) return 0;
+
+    const activeCount = students.filter(
+        (student) => student.status?.toLowerCase() === "ativo"
+    ).length;
+
+    return Math.round((activeCount / students.length) * 100);
+}

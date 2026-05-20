@@ -10,7 +10,7 @@ import Attendance from './components/Attendance/Attendance.jsx';
 import Finance from './components/Finance/Finance.jsx';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getTotalMonthlyFees } from './utils/students.js';
+import { getTotalMonthlyFees, getActiveStudentsPercentage } from './utils/students.js';
 
 const API_URL = "https://gerenciamentodealunos.onrender.com/students";
 
@@ -19,6 +19,7 @@ function App() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const totalMonthlyFees = getTotalMonthlyFees(students);
+  const activeStudentsPercentage = getActiveStudentsPercentage(students);
 
   const showStudents = useCallback(async () => {
     try {
@@ -89,7 +90,13 @@ function App() {
     // Sempre que o state "activeSection" mudar, ele é chamado
     switch(activeSection) {
       case 'dashboard':
-        return <Dashboard totalMonthlyFees={totalMonthlyFees} studentsCount={students.length} />;
+        return (
+          <Dashboard
+            totalMonthlyFees={totalMonthlyFees}
+            studentsCount={students.length}
+            activeStudentsPercentage={activeStudentsPercentage}
+          />
+        );
       case 'alunos':
         return (
           <Students
@@ -106,7 +113,13 @@ function App() {
       case 'financeiro':
         return <Finance />;
       default:
-        return <Dashboard totalMonthlyFees={totalMonthlyFees} studentsCount={students.length} />;
+        return (
+          <Dashboard
+            totalMonthlyFees={totalMonthlyFees}
+            studentsCount={students.length}
+            activeStudentsPercentage={activeStudentsPercentage}
+          />
+        );
     }
   };
 
