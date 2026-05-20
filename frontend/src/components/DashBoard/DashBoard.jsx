@@ -21,8 +21,6 @@ export default function Dashboard() {
                 revenueChartInstance.current = null;
             }
 
-            // destrói gráfico antigo anexado ao canvas, se existir
-               
 
             const ctx1 = revenueChartRef.current.getContext("2d"); // Permite usar o canvas em 2 dimensões
             // Criando o gráfico
@@ -30,7 +28,7 @@ export default function Dashboard() {
             revenueChartInstance.current = new Chart(ctx1, {
                 type: "line",
                 data:{
-                    labels: ["Jan", "Fev", "Mar", "Abr", "Mai"],
+                    labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago"],
                     datasets: [{
                         label: "Receita Mensal",
                         data: [2500, 3200, 2800, 3800, 4200],
@@ -63,10 +61,10 @@ export default function Dashboard() {
             studentsChartInstance.current = new Chart(ctx2, {
                 type: "doughnut",
                 data: {
-                    labels: ['Turma A', "Turma B"],
+                    labels: ['Turno matutino', "Turno vespertino", "Turno noturno"],
                     datasets: [{
-                        data: [25, 30],
-                        backgroundColor: ['#3b82f6', '#10b981']
+                        data: [25, 30, 4],
+                        backgroundColor: ['#3b82f6', '#10b981', "orange"]
                     }]
                 },
                 options: {
@@ -137,7 +135,7 @@ export default function Dashboard() {
                     </div>
                     <div className="stat-info">
                         <h3 id="totalPresencas">0%</h3>
-                        <p>Presença Média</p>
+                        <p>Alunos ativos</p>
                     </div>
                 </div>
 
@@ -151,7 +149,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="chart-card">
-                    <h3>Alunos por Turma</h3>
+                    <h3>Alunos por Turno</h3>
                     {/* Área do gráfico */}
                     <canvas ref={studentsChartRef} id="alunosChart"></canvas>
                 </div>

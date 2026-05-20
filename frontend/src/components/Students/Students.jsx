@@ -41,6 +41,7 @@ export default function Students({ students, loading, createStudent, deleteStude
 
    // Normaliza o texto da busca (sem espaços extras, tudo minúsculo) para comparar nomes sem erro de maiúscula
    const normalizedQuery = searchQuery.trim().toLowerCase();
+   
    // Lista exibida no autocomplete: alunos cujo nome contém o que foi digitado
    const suggestions = normalizedQuery ? students.filter((student) => student.name.toLowerCase().includes(normalizedQuery)) : [];
 
