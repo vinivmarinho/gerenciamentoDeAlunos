@@ -11,6 +11,14 @@
 
 ---
 
+## 🚀 Deploy
+
+- Frontend: Vercel  
+🔗 [Acessar aplicação](https://gerenciamento-de-alunos-vinicius.vercel.app/)
+
+> Projeto em desenvolvimento contínuo, podendo receber atualizações frequentes.
+
+---
 
 Sistema full stack para gerenciamento de alunos, turmas, presença e controle financeiro, desenvolvido com React no frontend e Node.js/Express no backend.
 
@@ -73,14 +81,7 @@ O sistema permite centralizar informações de alunos, facilitando o controle de
 
 ---
 
-## 🚀 Deploy
 
-- Frontend: Vercel  
-🔗 [Acessar aplicação](https://gerenciamento-de-alunos-vinicius.vercel.app/)
-
-> Projeto em desenvolvimento contínuo, podendo receber atualizações frequentes.
-
----
 
 ## 🏗️ Arquitetura do sistema
 
