@@ -1,3 +1,4 @@
+/* useCallBack => Memoriza a função para evitar recriações a cada renderização de um componente */
 import { useState, useCallback, useEffect } from 'react'
 import './App.css';
 import SideBar from './components/SideBar/SideBar.jsx';
