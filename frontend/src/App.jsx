@@ -10,6 +10,7 @@ import Attendance from './components/Attendance/Attendance.jsx';
 import Finance from './components/Finance/Finance.jsx';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getTotalMonthlyFees } from './utils/students.js';
 
 const API_URL = "https://gerenciamentodealunos.onrender.com/students";
 
@@ -17,6 +18,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const totalMonthlyFees = getTotalMonthlyFees(students);
 
   const showStudents = useCallback(async () => {
     try {
@@ -75,9 +77,9 @@ function App() {
     }
   }, [showStudents]);
 
-  /* Sempre que a seção ativa for "alunos", a função "showStudents" é chamada  */
+  /* Carrega alunos no dashboard e na seção de alunos */
   useEffect(() => {
-    if (activeSection === 'alunos') {
+    if (activeSection === 'alunos' || activeSection === 'dashboard') {
       showStudents();
     }
   }, [activeSection, showStudents]);
@@ -87,7 +89,7 @@ function App() {
     // Sempre que o state "activeSection" mudar, ele é chamado
     switch(activeSection) {
       case 'dashboard':
-        return <Dashboard />;
+        return <Dashboard totalMonthlyFees={totalMonthlyFees} studentsCount={students.length} />;
       case 'alunos':
         return (
           <Students
@@ -104,7 +106,7 @@ function App() {
       case 'financeiro':
         return <Finance />;
       default:
-        return <Dashboard />;
+        return <Dashboard totalMonthlyFees={totalMonthlyFees} studentsCount={students.length} />;
     }
   };
 

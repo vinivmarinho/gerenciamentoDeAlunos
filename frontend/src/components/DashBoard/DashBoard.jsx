@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { Chart, registerables } from "chart.js";
 Chart.register(...registerables); // Registra os componentes padrões do Chart.js (gráficos, escalas...)
 
-export default function Dashboard() {
+export default function Dashboard({ totalMonthlyFees = 0, studentsCount = 0 }) {
     // Obs: Referência ao elemento canvas onde o Chart.js desenha o gráfico
     const revenueChartRef = useRef(null);
     const studentsChartRef = useRef(null);
@@ -104,7 +104,7 @@ export default function Dashboard() {
                         <i className="fas fa-users"></i>
                     </div>
                     <div className="stat-info">
-                        <h3 id="totalAlunos">2</h3>
+                        <h3 id="totalAlunos">{studentsCount}</h3>
                         <p>Total de Alunos</p>
                     </div>
                 </div>
@@ -114,7 +114,7 @@ export default function Dashboard() {
                         <i className="fas fa-dollar-sign"></i>
                     </div>
                     <div className="stat-info">
-                        <h3 id="receitaMensal">R$ 2500</h3>
+                        <h3 id="receitaMensal">R$ {totalMonthlyFees.toLocaleString("pt-BR")}</h3>
                         <p>Receita Mensal</p>
                     </div>
                 </div>
