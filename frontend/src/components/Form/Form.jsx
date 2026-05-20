@@ -1,58 +1,36 @@
 import "./form.css";
 import { useState } from "react";
-import { toast } from "react-toastify";
 
-export default function Form({ showStudents, setShowForm }) {
+export default function Form({ createStudent, setShowForm }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
     const [studentClass, setStudentClass] = useState("");
     const [status, setStatus] = useState("ativo") // Status precisa ter valor inicial, senão o <select> fica sem opção selecionada
 
-    async function createStudent(event) {
-        // Impede o reload da página
+    async function handleSubmit(event) {
         event.preventDefault();
-        console.log(name, email, monthlyFee, studentClass, status);
 
-        try{
-            const response = await fetch("https://gerenciamentodealunos.onrender.com/students", {
-                method: "POST", 
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    monthlyFee: monthlyFee,
-                    studentClass: studentClass,
-                    status: status
-                }),
+        const ok = await createStudent({
+            name,
+            email,
+            monthlyFee,
+            studentClass,
+            status,
+        });
+        if (!ok) return;
 
-            })
-
-            if (!response.ok) {
-                throw new Error("Erro ao criar o aluno")
-            };
-            
-            /* Lista de alunos vindo de Students.jsx. Mostra todos os cadastrados na tela */
-            await showStudents();
-
-            setName("");
-            setEmail("");
-            setMonthlyFee("");
-            setStudentClass("");
-            setStatus("");
-
-            toast.success("Aluno(a) cadastrado com sucesso✅");
-            
-            setShowForm(false); // Form desaparece
-        } catch {
-            toast.error("Não foi possível cadastrar o aluno")
-        }   
-    } 
+        /* Reinicia os valores */
+        setName("");
+        setEmail("");
+        setMonthlyFee("");
+        setStudentClass("");
+        setStatus("ativo");
+        setShowForm(false);
+    }
 
     return(
-        <form className="student-form" onSubmit={createStudent}>
+        <form className="student-form" onSubmit={handleSubmit}>
             <h2>Cadastrar novo aluno</h2>
 
             <label htmlFor="nome">Nome</label>
@@ -114,8 +92,6 @@ export default function Form({ showStudents, setShowForm }) {
                 <option value="inativo">Inativo</option>
 
             </select>
-
-        
 
             <button type="submit">Cadastrar aluno</button>
         </form>

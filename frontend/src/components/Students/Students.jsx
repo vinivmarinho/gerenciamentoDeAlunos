@@ -2,13 +2,11 @@ import "./students.css";
 // useRef: guarda referência ao DOM do campo de busca (usado para detectar clique fora)
 import { useState, useEffect, useRef } from "react";
 import Form from "../Form/Form.jsx";
-import { toast } from "react-toastify";
+export default function Students({ students, loading, createStudent, deleteStudent }) {
 
-export default function Students() {
     const [showForm, setShowForm] = useState(false);
-    const [students, setStudents] = useState([]);
+
     const [studentToDelete, setStudentToDelete] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     // Texto de "Buscar aluno"
     const [searchQuery, setSearchQuery] = useState("");
@@ -18,43 +16,12 @@ export default function Students() {
     // Aponta para o div que envolve input + dropdown (para fechar ao clicar fora)
     const autoCompleteRef = useRef(null);
 
-   async function showStudents() {
-        try{
-            setLoading(true);
-            const response = await fetch("https://gerenciamentodealunos.onrender.com/students");
-            const data = await response.json();
-            setStudents(data);
-        } catch(error) {
-            console.error(`Erro: ${error}`)
-        } finally {
-            setLoading(false);
-        }
-   }
-
-   async function deleteStudent(id) {
-        try {
-            const response = await fetch(`https://gerenciamentodealunos.onrender.com/students/${id}`, {
-                method: "DELETE"
-            });
-
-            if (!response.ok) {
-                throw new Error("Erro ao deletar o aluno");
-            }
-
-            await showStudents();
+   async function handleDeleteStudent(id) {
+        const ok = await deleteStudent(id);
+        if (ok) {
             setStudentToDelete(null);
-            toast.success("Aluno(a) deletado com sucesso");
-        } catch(error) {
-            console.error(`Erro: ${error}`);
-            toast.error("Não foi possível deletar o aluno");
         }
    }
-
-   // Chama os dados ao abrir a página:
-   useEffect(() => {
-        showStudents();
-   }, []);
-
 
    // Fecha o dropdown de sugestões quando o usuário clica em qualquer lugar fora do campo de busca
    useEffect(() => {
@@ -69,11 +36,11 @@ export default function Students() {
         document.addEventListener("mousedown", handleClickOutside);
         /* Remove o listener quando o componente desmontar */
         return () => document.removeEventListener("mousedown", handleClickOutside);
+
    }, []);
 
    // Normaliza o texto da busca (sem espaços extras, tudo minúsculo) para comparar nomes sem erro de maiúscula
    const normalizedQuery = searchQuery.trim().toLowerCase();
-
    // Lista exibida no autocomplete: alunos cujo nome contém o que foi digitado
    const suggestions = normalizedQuery ? students.filter((student) => student.name.toLowerCase().includes(normalizedQuery)) : [];
 
@@ -81,7 +48,6 @@ export default function Students() {
    const filteredStudents = students.filter((student) => {
         const matchesName = normalizedQuery === "" ? true : student.name.toLowerCase().includes(normalizedQuery);
         const matchesStatus = statusFilter === "" ? true : student.status === statusFilter;
-
         return matchesName && matchesStatus;
    });
 
@@ -92,9 +58,10 @@ export default function Students() {
    }
 
     return(
+
         <section id="students">
-            
             <div className="page-header">
+
                 <h1><i className="fas fa-users"></i> Gerenciar Alunos</h1>
                 <button
                     onClick={() => setShowForm(true)}
@@ -103,8 +70,9 @@ export default function Students() {
                 >
                     <i className="fas fa-plus"></i> Novo Aluno
                 </button>
+
             </div>
-            
+
             <div className="search-filter">
                 {/* Container do input + dropdown; ref permite detectar clique fora */}
                 <div className="search-autocomplete" ref={autoCompleteRef}>
@@ -118,39 +86,44 @@ export default function Students() {
                             setSearchQuery(event.target.value);
                             setShowSuggestions(true); // mostra sugestões enquanto digita
                         }}
+
                         onFocus={() => setShowSuggestions(true)} // reabre sugestões ao focar de novo
                         autoComplete="off" // evita sugestões nativas do navegador sobrepondo as nossas
                         aria-autocomplete="list"
                         aria-expanded={showSuggestions && suggestions.length > 0}
                         aria-controls="searchAlunosSuggestions"
                     />
+
                     {/* Dropdown: só aparece se há texto na busca e existem alunos correspondentes */}
                     {showSuggestions && suggestions.length > 0 && (
+
                         <ul
                             id="searchAlunosSuggestions"
                             className="autocomplete-list"
                             role="listbox"
                         >
-                            {suggestions.map((student) => {
-                                const studentId = student._id ?? student.id;
+                        {suggestions.map((student) => {
+                            const studentId = student._id ?? student.id;
+                            return (
+                                <li key={studentId} role="option">
+                                    <button
+                                        type="button"
+                                        className="autocomplete-item"
+                                        onClick={() => handleSelectSuggestion(student.name)}
+                                    >
+                                        <span className="autocomplete-name">{student.name}</span>
+                                        <span className="autocomplete-meta">{student.email}</span>
+                                    </button>
+                                </li>
 
-                                return (
-                                    <li key={studentId} role="option">
-                                        <button
-                                            type="button"
-                                            className="autocomplete-item"
-                                            onClick={() => handleSelectSuggestion(student.name)}
-                                        >
-                                            <span className="autocomplete-name">{student.name}</span>
-                                            <span className="autocomplete-meta">{student.email}</span>
-                                        </button>
-                                    </li>
-                                );
+                            );
                             })}
                         </ul>
                     )}
                 </div>
+
                 {/* Select controlado: value ligado ao statusFilter para filtrar a tabela junto com a busca */}
+
                 <select
                     id="filterStatus"
                     value={statusFilter}
@@ -161,13 +134,15 @@ export default function Students() {
                     <option value="inativo">Inativo</option>
                 </select>
             </div>
+            
+            
             {loading ? (
                 <div className="loading-card">
                     <p>Carregando os alunos... Aguarde alguns segundos.</p>
                 </div>
             ) : (
-            <div className="table-container">
 
+            <div className="table-container">
                 <table className="data-table">
                     <thead>
                         <tr>
@@ -180,8 +155,8 @@ export default function Students() {
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="alunosTable">
 
+                    <tbody id="alunosTable">
 
                         {filteredStudents.length === 0 ? (
                             <tr>
@@ -189,7 +164,6 @@ export default function Students() {
                                     Nenhum aluno encontrado.
                                 </td>
                             </tr>
-
                         ) : filteredStudents.map(student => {
                             // Usa "_id" (MongoDB). Se não existir, usa "id.""
                             const studentId = student._id ?? student.id;
@@ -203,27 +177,32 @@ export default function Students() {
                                     <td>R$ {student.monthlyFee}</td>
                                     <td ><span className={`status-badge status-${student.status}`}>{student.status.toUpperCase()}</span></td>
                                     <td>
-                                        <button className="action-btn action-edit" title="Editar">
-                                            <i className="fas fa-edit"></i>
-                                        </button>
-                                        <button
-                                            className="action-btn action-delete"
-                                            title="Excluir"
-                                            onClick={() => setStudentToDelete({ ...student, id: studentId })}
-                                        >
-                                            <i className="fas fa-trash"></i>
+                                    <button className="action-btn action-edit" title="Editar">
+
+                                        <i className="fas fa-edit"></i>
+
+                                    </button>
+                                    <button
+                                        className="action-btn action-delete"
+                                        title="Excluir"
+                                        onClick={() => setStudentToDelete({ ...student, id: studentId })}
+                                    >
+                                        <i className="fas fa-trash"></i>
                                         </button>
                                     </td>
                                 </tr>
-                            )
-                        })}
 
+                            )
+
+                        })}
                     </tbody>
                 </table>
             </div>
 
             )}
+
             {showForm && (
+
                 /* Ao clicar fora do form, ele desaparece*/
                 <div className="form-modal-backdrop" onClick={() => setShowForm(false)}>
                     {/* stopPropagation impede que ao clicar dentro do form ele desapareça */}
@@ -236,18 +215,23 @@ export default function Students() {
                         >
                             X
                         </button>
-                        <Form showStudents={showStudents} setShowForm={setShowForm}/>
+        
+                        <Form createStudent={createStudent} setShowForm={setShowForm}/>
                     </div>
                 </div>
             )}
+
             
+
             {studentToDelete && (
+
                 <div className="confirm-modal-backdrop" onClick={() => setStudentToDelete(null)}>
                     <div className="confirm-delete-card" onClick={(event) => event.stopPropagation()}>
                         <h2>Excluir aluno</h2>
                         <p>
                             Tem certeza de que deseja excluir o(a) aluno(a) "{studentToDelete.name}"?
                         </p>
+
                         <div className="confirm-delete-actions">
                             <button
                                 type="button"
@@ -256,17 +240,22 @@ export default function Students() {
                             >
                                 Cancelar
                             </button>
+
                             <button
                                 type="button"
                                 className="btn-danger"
-                                onClick={() => deleteStudent(studentToDelete.id)}
+                                onClick={() => handleDeleteStudent(studentToDelete.id)}
                             >
                                 Excluir
                             </button>
+
                         </div>
                     </div>
                 </div>
             )}
         </section>
+
     )
+
 };
+
