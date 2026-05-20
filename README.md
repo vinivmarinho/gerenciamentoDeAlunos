@@ -50,13 +50,37 @@ O sistema permite centralizar informações de alunos, facilitando o controle de
 
 ## 🧠 Conceitos aplicados
 
-- Arquitetura full stack (Frontend + Backend)
-- API REST com Express
-- CRUD completo com MongoDB e Mongoose
-- Componentização em React
-- Consumo de API com Fetch
-- Organização por pastas (MVC simplificado)
-- Gerenciamento de estado com React Hooks
+### Arquitetura e organização
+- **Full stack**: React (Vite) no frontend, Express + MongoDB no backend
+- **API REST** com rotas, controllers e model (MVC simplificado)
+- **CRUD** completo com MongoDB e Mongoose
+- **Separação por pastas**: `components/`, `utils/`, `controllers/`, `routes/`, `models/`
+- **Deploy desacoplado**: frontend na Vercel, backend no Render
+
+### React — estado e fluxo de dados
+- **Lifting state up**: estado de alunos (`students`, `loading`) e operações da API (`createStudent`, `deleteStudent`, `showStudents`) centralizados em `App.jsx`, repassados via props para `Students`, `Form` e `Dashboard`
+- **Single source of truth**: uma única lista de alunos alimenta listagem, dashboard e métricas
+- **Props**: componentes filhos recebem dados e funções do pai (ex.: `Form` envia o formulário; quem comunica com a API é o `App`)
+- **Hooks**: `useState`, `useEffect`, `useCallback`, `useRef`
+
+### React — UI e comportamento
+- **Componentização**: cada área da aplicação em seu componente (`SideBar`, `Students`, `Dashboard`, etc.)
+- **Renderização condicional**: loading, modais de cadastro/exclusão, troca de seção com `switch`
+- **Controlled components**: formulário e filtros de busca controlados pelo estado do React
+- **Dados derivados**: totais e percentuais calculados a partir de `students` (funções em `utils/students.js`)
+- **Filtragem no cliente**: busca por nome e filtro por status com `filter`
+- **Padrão modal**: backdrop, fechar ao clicar fora (`useRef` + listener) e `stopPropagation` no conteúdo
+- **Feedback ao usuário**: React Toastify em sucesso/erro das operações
+
+### JavaScript e integração
+- **Fetch API** com `async/await`, `try/catch/finally` e tratamento de `response.ok`
+- **Funções puras** em `utils/` (`reduce`, `filter`) separadas da lógica de interface
+- **Optional chaining** e **nullish coalescing** (`student._id ?? student.id`)
+
+### Backend
+- **Express middleware**: `express.json()`, CORS
+- **Controllers assíncronos** para operações de alunos
+- **Variáveis de ambiente** com `dotenv` (porta, conexão com o banco)
 
 ---
 
