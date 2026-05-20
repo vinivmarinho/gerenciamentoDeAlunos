@@ -7,6 +7,7 @@ export default function Dashboard({
     totalMonthlyFees = 0,
     studentsCount = 0,
     activeStudentsPercentage = 0,
+    activeStudents = 0
 }) {
     // Obs: Referência ao elemento canvas onde o Chart.js desenha o gráfico
     const revenueChartRef = useRef(null);
@@ -128,7 +129,7 @@ export default function Dashboard({
                         <i className="fas fa-chalkboard"></i>
                     </div>
                     <div className="stat-info">
-                        <h3 id="totalTurmas">0</h3>
+                        <h3 id="totalTurmas">{activeStudents}</h3>
                         <p>Total de alunos ativos</p>
                     </div>
                 </div>

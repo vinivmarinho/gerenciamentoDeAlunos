@@ -16,3 +16,11 @@ export function getActiveStudentsPercentage(students) {
 
     return Math.round((activeCount / students.length) * 100);
 }
+
+export function getActiveStudents(students) {
+    if (!students.length) return 0;
+
+    const activeCount = students.filter((student) => student.status?.toLowerCase() === "ativo").length;
+    
+    return activeCount;
+}
