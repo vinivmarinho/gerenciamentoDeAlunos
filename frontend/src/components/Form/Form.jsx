@@ -24,7 +24,7 @@ export default function Form({ createStudent, setShowForm }) {
         setName("");
         setEmail("");
         setMonthlyFee("");
-        setStudentClass("");
+        setStudentShift("");
         setStatus("ativo");
         setShowForm(false);
     }
