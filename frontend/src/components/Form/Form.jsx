@@ -5,7 +5,7 @@ export default function Form({ createStudent, setShowForm }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
-    const [studentClass, setStudentClass] = useState("");
+    const [studentShift, setStudentClass] = useState("");
     const [status, setStatus] = useState("ativo") // Status precisa ter valor inicial, senão o <select> fica sem opção selecionada
 
     async function handleSubmit(event) {
@@ -15,7 +15,7 @@ export default function Form({ createStudent, setShowForm }) {
             name,
             email,
             monthlyFee,
-            studentClass,
+            studentShift,
             status,
         });
         if (!ok) return;
@@ -55,17 +55,18 @@ export default function Form({ createStudent, setShowForm }) {
                 required
             />
 
-            <label htmlFor="turma">Turma</label>
+            <label htmlFor="studentShift">Turno</label>
             <select
-                id="turma"
-                name="turma"
-                value={studentClass}
+                id="studentShift"
+                name="studentShift"
+                value={studentShift}
                 onChange={(event) => setStudentClass(event.target.value)}
                 required
             >
-                <option value="">Seleciona uma turma</option>
-                <option value="Turma A">Turma A</option>
-                <option value="Turma B">Turma B</option>
+                <option value="">Seleciona o turno</option>
+                <option value="Matutino">Matutino</option>
+                <option value="Vespertino">Vespertino</option>
+                <option value="Turma B">Noturno</option>
             </select>
 
 

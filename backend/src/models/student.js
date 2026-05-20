@@ -15,7 +15,7 @@ const studentSchema = new mongoose.Schema({
         required: true,
         min: 0 // Evita mensalidade negativa
     },
-    studentClass: {
+    studentShift: {
         type: String,
         required: true
     },
