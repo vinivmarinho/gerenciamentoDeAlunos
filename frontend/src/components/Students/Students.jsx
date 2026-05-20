@@ -150,7 +150,7 @@ export default function Students({ students, loading, createStudent, deleteStude
                             <th>Foto</th>
                             <th>Nome</th>
                             <th>Email</th>
-                            <th>Turma</th>
+                            <th>Turno</th>
                             <th>Mensalidade</th>
                             <th>Status</th>
                             <th>Ações</th>
@@ -174,7 +174,7 @@ export default function Students({ students, loading, createStudent, deleteStude
                                     <td className="avatar">👤</td>
                                     <td>{student.name}</td>
                                     <td>{student.email}</td>
-                                    <td>{student.studentClass}</td>
+                                    <td>{student.studentShift}</td>
                                     <td>R$ {student.monthlyFee}</td>
                                     <td ><span className={`status-badge status-${student.status}`}>{student.status.toUpperCase()}</span></td>
                                     <td>
