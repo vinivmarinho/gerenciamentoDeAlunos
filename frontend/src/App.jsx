@@ -80,6 +80,30 @@ function App() {
     }
   }, [showStudents]);
 
+  const updateStudent = useCallback(async (id, studentData) => {
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(studentData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar o aluno");
+      }
+
+      await showStudents();
+      toast.success("Aluno(a) atualizado com sucesso");
+      return true;
+    } catch {
+      toast.error("Não foi possível atualizar o aluno");
+      return false;
+    }
+  }, [showStudents]);
+
+
   /* Carrega alunos no dashboard e na seção de alunos */
   useEffect(() => {
     if (activeSection === 'alunos' || activeSection === 'dashboard') {
@@ -108,6 +132,7 @@ function App() {
             loading={loading}
             createStudent={createStudent}
             deleteStudent={deleteStudent}
+            updateStudent={updateStudent}
           />
         );
       case 'turmas':

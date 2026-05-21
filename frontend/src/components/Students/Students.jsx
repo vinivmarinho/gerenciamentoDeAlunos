@@ -2,7 +2,7 @@ import "./students.css";
 // useRef: guarda referência ao DOM do campo de busca (usado para detectar clique fora)
 import { useState, useEffect, useRef } from "react";
 import Form from "../Form/Form.jsx";
-export default function Students({ students, loading, createStudent, deleteStudent }) {
+export default function Students({ students, loading, createStudent, deleteStudent, updateStudent }) {
 
     const [showForm, setShowForm] = useState(false);
 
@@ -254,6 +254,8 @@ export default function Students({ students, loading, createStudent, deleteStude
                     </div>
                 </div>
             )}
+
+            
         </section>
 
     )
