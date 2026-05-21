@@ -26,9 +26,9 @@ export function getActiveStudents(students) {
 }
 
 export function getStudentsCountByShift(students) {
-    const matutino = students.filter((value) => value.studentShift === "Matutino").length;
-    const vespertino = students.filter((value) => value.studentShift === "Vespertino").length;
-    const noturno = students.filter((value) => value.studentShift === "Noturno").length;
+    const matutino = students.filter((student) => student.studentShift === "Matutino").length;
+    const vespertino = students.filter((student) => student.studentShift === "Vespertino").length;
+    const noturno = students.filter((student) => student.studentShift === "Noturno").length;
 
     return { matutino, vespertino, noturno};
 }
