@@ -10,7 +10,7 @@ import Attendance from './components/Attendance/Attendance.jsx';
 import Finance from './components/Finance/Finance.jsx';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getTotalMonthlyFees, getActiveStudentsPercentage, getActiveStudents } from './utils/students.js';
+import { getTotalMonthlyFees, getActiveStudentsPercentage, getActiveStudents, getStudentsCountByShift } from './utils/students.js';
 
 const API_URL = "https://gerenciamentodealunos.onrender.com/students";
 
@@ -21,6 +21,7 @@ function App() {
   const totalMonthlyFees = getTotalMonthlyFees(students);
   const activeStudentsPercentage = getActiveStudentsPercentage(students);
   const activeStudents = getActiveStudents(students);
+  const shifts = getStudentsCountByShift(students);
 
   const showStudents = useCallback(async () => {
     try {
@@ -97,6 +98,7 @@ function App() {
             studentsCount={students.length}
             activeStudentsPercentage={activeStudentsPercentage}
             activeStudents={activeStudents}
+            shifts={shifts}
           />
         );
       case 'alunos':
@@ -121,6 +123,7 @@ function App() {
             studentsCount={students.length}
             activeStudentsPercentage={activeStudentsPercentage}
             activeStudents={activeStudents}
+            shifts={shifts}
           />
         );
     }

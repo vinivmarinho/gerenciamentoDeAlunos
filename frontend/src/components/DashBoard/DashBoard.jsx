@@ -7,7 +7,8 @@ export default function Dashboard({
     totalMonthlyFees = 0,
     studentsCount = 0,
     activeStudentsPercentage = 0,
-    activeStudents = 0
+    activeStudents = 0,
+    shifts
 }) {
     // Obs: Referência ao elemento canvas onde o Chart.js desenha o gráfico
     const revenueChartRef = useRef(null);
@@ -68,7 +69,7 @@ export default function Dashboard({
                 data: {
                     labels: ['Turno matutino', "Turno vespertino", "Turno noturno"],
                     datasets: [{
-                        data: [25, 30, 4],
+                        data: [shifts.matutino, shifts.vespertino, shifts.noturno],
                         backgroundColor: ['#3b82f6', '#10b981', "orange"]
                     }]
                 },
