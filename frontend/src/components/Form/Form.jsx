@@ -66,7 +66,7 @@ export default function Form({ createStudent, setShowForm }) {
                 <option value="">Seleciona o turno</option>
                 <option value="Matutino">Matutino</option>
                 <option value="Vespertino">Vespertino</option>
-                <option value="Turma B">Noturno</option>
+                <option value="Noturno">Noturno</option>
             </select>
 
 

@@ -24,3 +24,11 @@ export function getActiveStudents(students) {
     
     return activeCount;
 }
+
+export function getStudentsCountByShift(students) {
+    const matutino = students.filter((value) => value.studentShift === "Matutino").length;
+    const vespertino = students.filter((value) => value.studentShift === "Vespertino").length;
+    const noturno = students.filter((value) => value.studentShift === "Noturno").length;
+
+    return { matutino, vespertino, noturno};
+}
