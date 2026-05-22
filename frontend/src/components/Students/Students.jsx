@@ -7,6 +7,7 @@ export default function Students({ students, loading, createStudent, deleteStude
     const [showForm, setShowForm] = useState(false);
 
     const [studentToDelete, setStudentToDelete] = useState(null);
+    const [studentToUpdate, setStudentToUpdate] = useState(null);
 
     // Texto de "Buscar aluno"
     const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +23,13 @@ export default function Students({ students, loading, createStudent, deleteStude
             setStudentToDelete(null);
         }
    }
+
+   /* Fecha os modais */
+   function onClose() {
+        setShowForm(false);
+        setStudentToUpdate(null);
+   }
+
 
    // Fecha o dropdown de sugestões quando o usuário clica em qualquer lugar fora do campo de busca
    useEffect(() => {
@@ -178,8 +186,12 @@ export default function Students({ students, loading, createStudent, deleteStude
                                     <td>R$ {student.monthlyFee}</td>
                                     <td ><span className={`status-badge status-${student.status}`}>{student.status.toUpperCase()}</span></td>
                                     <td>
-                                    <button className="action-btn action-edit" title="Editar">
-
+                                    <button 
+                                        className="action-btn action-edit" 
+                                        title="Editar"
+                                        /* "..." pega todas as propriedades de "student"*/
+                                        onClick={() => setStudentToUpdate({ ...student, id: studentId})}
+                                    >
                                         <i className="fas fa-edit"></i>
 
                                     </button>
@@ -211,7 +223,7 @@ export default function Students({ students, loading, createStudent, deleteStude
                         <button
                             type="button"
                             className="form-modal-close"
-                            onClick={() => setShowForm(false)}
+                            onClick={onClose}
                             aria-label="Fechar formulario"
                         >
                             X
@@ -255,7 +267,25 @@ export default function Students({ students, loading, createStudent, deleteStude
                 </div>
             )}
 
-            
+            {studentToUpdate && (
+                /* Ao clicar fora do form, ele desaparece*/
+                <div className="form-modal-backdrop" onClick={() => setStudentToUpdate(false)}>
+                    {/* stopPropagation impede que ao clicar dentro do form ele desapareça */}
+                    <div className="form-modal" onClick={(event) => event.stopPropagation()}>
+                        <button
+                            type="button"
+                            className="form-modal-close"
+                            onClick={onClose}
+                            aria-label="Fechar formulario"
+                        >
+                            X
+                        </button>
+
+                        <Form createStudent={createStudent} updateStudent={updateStudent} studentToUpdate={studentToUpdate} setShowForm={setShowForm} onClose={onClose}/>
+                    </div>
+                </div>
+            )}
+
         </section>
 
     )

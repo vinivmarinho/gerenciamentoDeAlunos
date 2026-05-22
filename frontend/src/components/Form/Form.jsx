@@ -1,33 +1,52 @@
 import "./form.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Form({ createStudent, setShowForm }) {
+export default function Form({ createStudent, updateStudent, studentToUpdate,setShowForm, onClose }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [monthlyFee, setMonthlyFee] = useState("");
-    const [studentShift, setStudentClass] = useState("");
+    const [studentShift, setStudentShift] = useState("");
     const [status, setStatus] = useState("ativo") // Status precisa ter valor inicial, senão o <select> fica sem opção selecionada
 
     async function handleSubmit(event) {
         event.preventDefault();
+        const studentData = { name, email, monthlyFee, studentShift, status };
 
-        const ok = await createStudent({
-            name,
-            email,
-            monthlyFee,
-            studentShift,
-            status,
-        });
-        if (!ok) return;
-
-        /* Reinicia os valores */
-        setName("");
-        setEmail("");
-        setMonthlyFee("");
-        setStudentShift("");
-        setStatus("ativo");
-        setShowForm(false);
+        let ok;
+        if (studentToUpdate) {
+            ok = await updateStudent(studentToUpdate.id, studentData);
+            onClose();
+        } else {
+            const ok = await createStudent({
+                name,
+                email,
+                monthlyFee,
+                studentShift,
+                status,
+            });
+            if (!ok) return;
+    
+            /* Reinicia os valores */
+            setName("");
+            setEmail("");
+            setMonthlyFee("");
+            setStudentShift("");
+            setStatus("ativo");
+            setShowForm(false);
+            onClose();
+        }
+        
     }
+    // É chamada sempre que "studentToUpdate" existir
+    // "??" retorna o valor da direita caso o da esquerda seja null ou undefined
+    useEffect(() => {
+        if (!studentToUpdate) return;
+        setName(studentToUpdate.name ?? "");
+        setEmail(studentToUpdate.email ?? "");
+        setMonthlyFee(studentToUpdate.monthlyFee ?? "");
+        setStudentShift(studentToUpdate.studentShift ?? "");
+        setStatus(studentToUpdate.status ?? "ativo");
+    }, [studentToUpdate])
 
     return(
         <form className="student-form" onSubmit={handleSubmit}>
@@ -60,7 +79,7 @@ export default function Form({ createStudent, setShowForm }) {
                 id="studentShift"
                 name="studentShift"
                 value={studentShift}
-                onChange={(event) => setStudentClass(event.target.value)}
+                onChange={(event) => setStudentShift(event.target.value)}
                 required
             >
                 <option value="">Seleciona o turno</option>
