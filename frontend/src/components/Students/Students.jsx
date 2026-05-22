@@ -229,7 +229,7 @@ export default function Students({ students, loading, createStudent, deleteStude
                             X
                         </button>
         
-                        <Form createStudent={createStudent} setShowForm={setShowForm}/>
+                        <Form createStudent={createStudent} setShowForm={setShowForm} onClose={onClose} />
                     </div>
                 </div>
             )}
@@ -269,7 +269,7 @@ export default function Students({ students, loading, createStudent, deleteStude
 
             {studentToUpdate && (
                 /* Ao clicar fora do form, ele desaparece*/
-                <div className="form-modal-backdrop" onClick={() => setStudentToUpdate(false)}>
+                <div className="form-modal-backdrop" onClick={() => setStudentToUpdate(null)}>
                     {/* stopPropagation impede que ao clicar dentro do form ele desapareça */}
                     <div className="form-modal" onClick={(event) => event.stopPropagation()}>
                         <button

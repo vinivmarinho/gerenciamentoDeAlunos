@@ -15,6 +15,7 @@ export default function Form({ createStudent, updateStudent, studentToUpdate,set
         let ok;
         if (studentToUpdate) {
             ok = await updateStudent(studentToUpdate.id, studentData);
+            if (!ok) return;
             onClose();
         } else {
             const ok = await createStudent({
