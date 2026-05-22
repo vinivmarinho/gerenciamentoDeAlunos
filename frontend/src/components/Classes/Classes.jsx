@@ -8,8 +8,9 @@ export default function Classes() {
                     <i className="fas fa-plus"></i> Nova Turma
                 </button>
             </div>
-            <div className="classes-grid" id="classesGrid">
 
+
+            <div className="classes-grid" id="classesGrid">
                 {/* Turmas ainda serão inseridas */}
                 <div className="class-card">
 

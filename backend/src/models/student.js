@@ -13,7 +13,7 @@ const studentSchema = new mongoose.Schema({
     monthlyFee: {
         type: Number,
         required: true,
-        min: 0 // Evita mensalidade negativa
+        min: 0
     },
     studentShift: {
         type: String,
