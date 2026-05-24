@@ -62,7 +62,7 @@ const updateStudent = async(req, res) => {
         const student = await Student.findByIdAndUpdate(
             id,
             req.body,
-            { returnDocument: "after" }
+            { returnDocument: "after" } // Faz o mongoDB retornar o documento atualizado
         );
 
         res.status(200).json({student});

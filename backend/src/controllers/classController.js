@@ -47,4 +47,24 @@ const deleteClass = async(req, res) => {
     }
 };
 
+/* Atualiza turma */
+const updateClass = async(req, res) => {
+    try{
+        const { id } = req.params;
+
+        const classGroup = await ClassModel.findByIdAndUpdate(
+            id,
+            req.body,
+            { returnDocument: "after" }
+        );
+
+        res.status(200).json({classGroup});
+    } catch(error) {
+        res.status(500).json({
+            message: "Erro ao atualizar turma",
+            error: error.message
+        });
+    }
+};
+
 module.exports = { createClass, showClasses, deleteClass }
