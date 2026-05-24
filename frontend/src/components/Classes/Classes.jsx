@@ -1,4 +1,5 @@
 import "./classes.css";
+
 export default function Classes() {
     return(
         <section id="classes">

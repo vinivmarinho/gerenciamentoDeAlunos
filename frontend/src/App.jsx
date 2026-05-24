@@ -114,6 +114,23 @@ function App() {
     }
   }, [activeSection, showStudents]);
 
+  // Estados de "turma"
+  const [classes, setClasses] = useState([]);
+  const [loadingClasses, setLoadingClasses] = useState(false);
+  
+  
+  const showClasses = useCallback(async () => {
+    try {
+      setLoadingClasses(true);
+      const response = await fetch(API_URL_classes);
+      const data = await response.json();
+      setClasses(data);
+    } catch(error) {
+      console.error(`Erro: ${error}`);
+    } finally {
+      setLoadingClasses(false);
+    }
+  }, []);
 
   const createClass = useCallback(async (classData) => {
     try{
@@ -135,7 +152,7 @@ function App() {
       return false;
     }
   }, []);
-  
+
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
     // Sempre que o state "activeSection" mudar, ele é chamado
