@@ -67,4 +67,4 @@ const updateClass = async(req, res) => {
     }
 };
 
-module.exports = { createClass, showClasses, deleteClass }
+module.exports = { createClass, showClasses, deleteClass, updateClass }
