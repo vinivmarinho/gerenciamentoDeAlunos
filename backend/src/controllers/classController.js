@@ -22,4 +22,14 @@ const createClass = async(req, res) => {
     }
 };
 
-module.exports = { createClass }
+/* Mostra as turmas */
+const showClasses = async(req, res) => {
+    try{
+        const classes = await ClassModel.find();
+        res.status(200).json(classes)
+    } catch(error) {
+        console.error(`Erro: ${error}`)
+    }
+};
+
+module.exports = { createClass, showClasses }

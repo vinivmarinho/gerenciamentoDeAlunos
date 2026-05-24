@@ -3,5 +3,6 @@ const router = express.Router();
 const classControllers = require("../controllers/classController");
 
 router.post("/", classControllers.createClass);
+router.get("/", classControllers.showClasses);
 
 module.exports = router;
