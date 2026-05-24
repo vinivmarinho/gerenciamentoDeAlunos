@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getTotalMonthlyFees, getActiveStudentsPercentage, getActiveStudents, getStudentsCountByShift } from './utils/students.js';
 
 const API_URL = "https://gerenciamentodealunos.onrender.com/students";
+const API_URL_classes = "https://gerenciamentodealunos.onrender.com/classes";
 
 function App() {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -35,6 +36,9 @@ function App() {
       setLoading(false);
     }
   }, []);
+
+
+
 
   const createStudent = useCallback(async (studentData) => {
     try {
@@ -103,7 +107,6 @@ function App() {
     }
   }, [showStudents]);
 
-
   /* Carrega alunos no dashboard e na seção de alunos */
   useEffect(() => {
     if (activeSection === 'alunos' || activeSection === 'dashboard') {
@@ -111,6 +114,28 @@ function App() {
     }
   }, [activeSection, showStudents]);
 
+
+  const createClass = useCallback(async (classData) => {
+    try{
+      const response = await fetch(API_URL_classes, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(classData),
+      });
+      if (!response.ok) {
+        throw new Error("Erro ao criar a turma");
+      }
+  
+      toast.success("Turma cadastrada com sucesso✅");
+      return true;
+    } catch(error) {
+      toast.error("Não foi possível cadastrar a turma");
+      return false;
+    }
+  }, []);
+  
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
     // Sempre que o state "activeSection" mudar, ele é chamado
@@ -154,6 +179,8 @@ function App() {
     }
   };
 
+
+ 
   return (
     <>
         <ToastContainer />
