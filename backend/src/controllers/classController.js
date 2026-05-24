@@ -35,7 +35,7 @@ const showClasses = async(req, res) => {
 /* Deleta turma */
 const deleteClass = async(req, res) => {
     try{
-        const id = req.params; // Parâmetros da requisição
+        const  { id }  = req.params; // Parâmetros da requisição
         const classGroup = await ClassModel.find(id);
         await ClassModel.findByIdAndDelete(id);
         res.send(`Turma ${classGroup.name} deletada`)
