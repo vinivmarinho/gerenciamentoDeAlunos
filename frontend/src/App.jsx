@@ -38,8 +38,6 @@ function App() {
   }, []);
 
 
-
-
   const createStudent = useCallback(async (studentData) => {
     try {
       const response = await fetch(API_URL, {
@@ -118,7 +116,7 @@ function App() {
   const [classes, setClasses] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
   
-  
+
   const showClasses = useCallback(async () => {
     try {
       setLoadingClasses(true);
@@ -144,14 +142,23 @@ function App() {
       if (!response.ok) {
         throw new Error("Erro ao criar a turma");
       }
-  
+
+      await showClasses();
       toast.success("Turma cadastrada com sucesso✅");
       return true;
     } catch(error) {
       toast.error("Não foi possível cadastrar a turma");
       return false;
     }
-  }, []);
+  }, [showClasses]);
+
+  // Quando entrar na seção "Turmas"
+  useEffect(() => {
+    if (activeSection === "turmas") {
+      showClasses();
+    }
+  }, [activeSection, showClasses]);
+
 
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
@@ -178,7 +185,13 @@ function App() {
           />
         );
       case 'turmas':
-        return <Classes />;
+        return (
+          <Classes
+            classes={classes}
+            loading={loadingClasses}
+            createClass={createClass}
+          />
+        );
       case 'presenca':
         return <Attendance />;
       case 'financeiro':
