@@ -112,6 +112,7 @@ function App() {
     }
   }, [activeSection, showStudents]);
 
+
   // Estados de "turma"
   const [classes, setClasses] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
@@ -152,12 +153,57 @@ function App() {
     }
   }, [showClasses]);
 
+  const updateClass = useCallback(async (id, classData) => {
+    try {
+      const response = await fetch(`${API_URL_classes}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(classData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar a turma");
+      }
+
+      await showClasses();
+      toast.success("Turma atualizada com sucesso");
+      return true;
+    } catch (error) {
+      console.error(`Erro: ${error}`);
+      toast.error("Não foi possível atualizar a turma");
+      return false;
+    }
+  }, [showClasses]);
+
+  const deleteClass = useCallback(async (id) => {
+    try {
+      const response = await fetch(`${API_URL_classes}/${id}`, {
+        method: "DELETE"
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao deletar a turma");
+      }
+
+      await showClasses();
+      toast.success("Turma excluída com sucesso");
+      return true;
+    } catch (error) {
+      console.error(`Erro: ${error}`);
+      toast.error("Não foi possível excluir a turma");
+      return false;
+    }
+  }, [showClasses]);
+
   // Quando entrar na seção "Turmas"
   useEffect(() => {
     if (activeSection === "turmas") {
       showClasses();
+      showStudents();
     }
-  }, [activeSection, showClasses]);
+  }, [activeSection, showClasses, showStudents]);
 
 
   // Função usa switch case para controlar o componente que irá aparecer na tela
@@ -189,7 +235,11 @@ function App() {
           <Classes
             classes={classes}
             loading={loadingClasses}
+            students={students}
+            loadingStudents={loading}
             createClass={createClass}
+            updateClass={updateClass}
+            deleteClass={deleteClass}
           />
         );
       case 'presenca':
@@ -210,7 +260,6 @@ function App() {
   };
 
 
- 
   return (
     <>
         <ToastContainer />
