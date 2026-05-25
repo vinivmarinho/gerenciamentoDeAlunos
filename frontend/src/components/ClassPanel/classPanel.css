@@ -1,0 +1,307 @@
+.class-panel-modal {
+    width: 100%;
+    max-width: 640px;
+}
+
+.class-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+}
+
+.class-panel h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.35rem;
+    color: #1f2937;
+}
+
+.class-panel-subtitle {
+    margin: 0;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+.class-panel-section h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    color: var(--dark-color);
+}
+
+.class-panel-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.class-panel-fields label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.class-panel-fields input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.class-panel-fields input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.class-panel-students {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.class-panel-students table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.class-panel-students th,
+.class-panel-students td {
+    padding: 0.65rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.class-panel-students th {
+    background: var(--light-color);
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.class-panel-students tr:last-child td {
+    border-bottom: none;
+}
+
+.class-panel-empty {
+    margin: 0;
+    padding: 1rem;
+    color: var(--secondary-color);
+    text-align: center;
+}
+
+.class-panel-add.search-autocomplete {
+    position: relative;
+}
+
+.class-panel-add.search-autocomplete input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.35rem 0;
+    list-style: none;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.autocomplete-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    transition: background 0.15s ease;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item:focus-visible {
+    background: var(--light-color);
+    outline: none;
+}
+
+.autocomplete-name {
+    font-weight: 600;
+    color: var(--dark-color, #1e293b);
+}
+
+.autocomplete-meta {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+}
+
+.class-panel-students .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.class-panel-students .status-ativo {
+    background-color: #dcfce7;
+    color: var(--success-color);
+}
+
+.class-panel-students .status-inativo {
+    background-color: #fee2e2;
+    color: var(--danger-color);
+}
+
+.class-panel-add {
+    position: relative;
+}
+
+.class-panel-add input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.class-panel-add input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.class-panel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.class-panel-actions-primary {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.class-panel-btn-save {
+    padding: 0.7rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.class-panel-btn-save:hover {
+    background-color: #1d4ed8;
+}
+
+.class-panel-btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.class-panel-btn-delete {
+    padding: 0.7rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--light-color);
+    color: var(--danger-color);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.class-panel-btn-delete:hover {
+    background: #fee2e2;
+}
+
+.class-panel-remove-btn {
+    border: none;
+    background: transparent;
+    color: var(--danger-color);
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 1rem;
+}
+
+.class-panel-remove-btn:hover {
+    opacity: 0.8;
+}
+
+.confirm-delete-card {
+    width: min(420px, 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.confirm-delete-card h2 {
+    margin: 0 0 0.75rem;
+    color: var(--dark-color);
+    font-size: 1.25rem;
+}
+
+.confirm-delete-card p {
+    margin: 0;
+    color: var(--secondary-color);
+    line-height: 1.5;
+}
+
+.confirm-delete-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.btn-cancel,
+.btn-danger {
+    border: none;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel {
+    background: var(--light-color);
+    color: var(--secondary-color);
+}
+
+.btn-cancel:hover {
+    background: var(--border-color);
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    filter: brightness(0.95);
+}
