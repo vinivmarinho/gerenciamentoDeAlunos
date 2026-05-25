@@ -1,9 +1,18 @@
 import "./classes.css";
 import { useState } from "react";
 import ClassForm from "../ClassForm/ClassForm.jsx";
+import ClassPanel from "../ClassPanel/ClassPanel.jsx";
 
-export default function Classes({ classes, loading, createClass }) {
+export default function Classes({
+    classes,
+    loading,
+    students,
+    createClass,
+    updateClass,
+    deleteClass,
+}) {
     const [showForm, setShowForm] = useState(false);
+    const [selectedClass, setSelectedClass] = useState(null);
 
     function onClose() {
         setShowForm(false);
@@ -51,7 +60,11 @@ export default function Classes({ classes, loading, createClass }) {
                                     </div>
 
                                     <div className="manage-container">
-                                        <button className="btn-manage" type="button">
+                                        <button
+                                            className="btn-manage"
+                                            type="button"
+                                            onClick={() => setSelectedClass(classGroup)}
+                                        >
                                             Gerenciar
                                         </button>
                                     </div>
@@ -60,6 +73,16 @@ export default function Classes({ classes, loading, createClass }) {
                         })
                     )}
                 </div>
+            )}
+
+            {selectedClass && (
+                <ClassPanel
+                    classGroup={selectedClass}
+                    students={students}
+                    onClose={() => setSelectedClass(null)}
+                    updateClass={updateClass}
+                    deleteClass={deleteClass}
+                />
             )}
 
             {showForm && (
