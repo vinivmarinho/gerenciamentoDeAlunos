@@ -160,6 +160,7 @@ export default function ClassPanel({
                                                 <th>Nome</th>
                                                 <th>Email</th>
                                                 <th>Status</th>
+                                                <th>Mensalidade</th>
                                                 <th aria-label="Ações">Ações</th>
                                             </tr>
                                         </thead>
@@ -178,6 +179,7 @@ export default function ClassPanel({
                                                                 {student.status?.toUpperCase()}
                                                             </span>
                                                         </td>
+                                                        <td>R$ {student.monthlyFee}</td>
                                                         <td>
                                                             <button
                                                                 type="button"
