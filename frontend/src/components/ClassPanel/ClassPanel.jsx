@@ -66,7 +66,10 @@ export default function ClassPanel({
           )
         : [];
     
-    const classMonthlyFee = getTotalMonthlyFees(enrolledStudents);
+    const classMonthlyFee = getTotalMonthlyFees(enrolledStudents).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+    });
 
     /* Remove aluno da lista de matrículados */
     function handleRemoveStudent(studentId) {
@@ -153,9 +156,18 @@ export default function ClassPanel({
                         <section className="class-panel-section">
                             <h3>Alunos matriculados ({enrolledStudents.length})</h3>
 
+
                             <div className="class-panel-revenue">
-                                R$ {classMonthlyFee} 
+                                <div className="class-panel-revenue-body">
+                                    <span className="class-panel-revenue-label">Renda Mensal</span>
+                                    <strong className="class-panel-revenue-value">{classMonthlyFee}
+                                    </strong>
+                                    <span className="class-panel-revenue-hint">
+                                        Soma das mensalidades dos alunos ativos nessa turma
+                                    </span>
+                                </div>
                             </div>
+
 
                             <div className="class-panel-students">
                                 {enrolledStudents.length === 0 ? (

@@ -32,6 +32,7 @@
     margin: 0 0 0.75rem;
     font-size: 1rem;
     color: var(--dark-color);
+    
 }
 
 .class-panel-fields {
@@ -60,10 +61,47 @@
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
+.class-panel-revenue {
+    display: flex;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #ecfdf5;
+    border:1px solid #a7f3d0;
+    border-left: 4px solid var(--sucess-color);
+    border-radius: 10px;
+}
+.class-panel-revenue-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+.class-panel-revenue-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #047857
+}
+.class-panel-revenue-value {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--success-color);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2
+}
+.class-panel-revenue-hint {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    line-height: 1.35;
+}
 .class-panel-students {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     overflow: hidden;
+    
 }
 
 .class-panel-students table {
