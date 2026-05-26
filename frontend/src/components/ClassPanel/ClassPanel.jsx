@@ -1,6 +1,7 @@
 import "../Form/form.css";
 import "./classPanel.css";
 import { useState, useEffect, useRef } from "react";
+import { getTotalMonthlyFees } from "../../utils/students";
 
 function getId(item) {
     if (!item) return null;
@@ -35,6 +36,7 @@ export default function ClassPanel({
     const [showSuggestions, setShowSuggestions] = useState(false);
     const addStudentRef = useRef(null);
 
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (addStudentRef.current && !addStudentRef.current.contains(event.target)) {
@@ -64,6 +66,8 @@ export default function ClassPanel({
           )
         : [];
     
+    const classMonthlyFee = getTotalMonthlyFees(enrolledStudents);
+
     /* Remove aluno da lista de matrículados */
     function handleRemoveStudent(studentId) {
         setEnrolledIds((prev) => prev.filter((id) => id !== studentId));
@@ -148,6 +152,11 @@ export default function ClassPanel({
 
                         <section className="class-panel-section">
                             <h3>Alunos matriculados ({enrolledStudents.length})</h3>
+
+                            <div className="class-panel-revenue">
+                                R$ {classMonthlyFee} 
+                            </div>
+
                             <div className="class-panel-students">
                                 {enrolledStudents.length === 0 ? (
                                     <p className="class-panel-empty">
