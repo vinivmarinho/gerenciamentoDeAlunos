@@ -35,15 +35,6 @@ export default function MobileNav({ activeSection, setActiveSection }) {
 
             <button
                 type="button"
-                className={`nav-item ${activeSection === 'presenca' ? 'active' : ''}`}
-                onClick={() => handleNavClick('presenca')}
-            >
-                <i className="fas fa-calendar-check"></i>
-                <span>Presença</span>
-            </button>
-            
-            <button
-                type="button"
                 className={`nav-item ${activeSection === 'financeiro' ? 'active' : ''}`}
                 onClick={() => handleNavClick('financeiro')}
             >

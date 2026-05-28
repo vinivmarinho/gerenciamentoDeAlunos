@@ -43,13 +43,6 @@ export default function SideBar({ activeSection, setActiveSection }) {
                         <i className="fas fa-chalkboard-teacher"></i> Turmas
                     </button>
 
-                    <button 
-                        type="button"
-                        className={`nav-item ${activeSection === 'presenca' ? 'active' : ''}`}
-                        onClick={() => handleMenuClick('presenca')}
-                    >
-                        <i className="fas fa-calendar-check"></i> Presença
-                    </button>
 
                     <button 
                         type="button"
