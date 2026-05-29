@@ -42,7 +42,7 @@ const generateMonthlyFees = async (req, res) => {
             status: { $regex: /^ativo$/i }
         });
 
-        if (!activeStudents.length === 0) {
+        if (activeStudents.length === 0) {
             return res.status(200).json({
                 message: "Nenhum aluno ativo encontrado",
                 createdCount: 0
