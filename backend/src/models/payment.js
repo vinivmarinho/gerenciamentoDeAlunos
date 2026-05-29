@@ -23,4 +23,9 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         enum: ["Pendente", "Pago", "Atrasado"]
     }
-})
+}, {
+    timestamps: true
+    }
+);
+
+module.exports = mongoose.model("Payment", paymentSchema);
