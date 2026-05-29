@@ -4,7 +4,7 @@ const paymentModel = require("../models/payment");
 const createPayment = async(req, res) => {
     try{
         const { student, referenceMonth, amount, dueDate, status} = req.body;
-        const validSatuses = ["Pendente", "Pago", "Atrasado"];
+        const validStatuses = ["Pendente", "Pago", "Atrasado"];
         if (status !== undefined && !validStatuses.includes(status)) {
             return res.status(400).json({
                 message: `Status inválido. Use: ${validSatuses.join(", ")}`
