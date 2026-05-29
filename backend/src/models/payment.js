@@ -4,7 +4,8 @@ const paymentSchema = new mongoose.Schema({
     // Relaciona um pagamento a um aluno
     student: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Student"
+        ref: "Student",
+        required: true
     },
     referenceMonth: {
         type: String,
@@ -27,5 +28,7 @@ const paymentSchema = new mongoose.Schema({
     timestamps: true
     }
 );
+// Índice único. Impede que o mesmo aluno tenha dois pagamentos no mesmo mês
+paymentSchema.index({ student: 1, referenceMonth: 1 }, { unique: true });
 
 module.exports = mongoose.model("Payment", paymentSchema);
