@@ -4,10 +4,12 @@ const app = express(); // Cria o app
 app.use(express.json()); // Habilita receber requisições em JSON
 app.use(cors()); // Habilita cors para todas as rotas
 const studentsRoutes = require("./routes/student.routes");
-const classRoutes = require("./routes/class.routes")
+const classRoutes = require("./routes/class.routes");
+const paymentRoutes = require("./routes/payment.routes");
 
 // Define o caminho base "/students" para todas as rotas de studentsRoutes e "/classes" para classRoutes 
 app.use("/students", studentsRoutes);
-app.use("/classes", classRoutes)
+app.use("/classes", classRoutes);
+app.use("/payments", paymentRoutes);;
 
 module.exports = app;
