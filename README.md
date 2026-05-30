@@ -14,7 +14,7 @@
 ## 🚀 Deploy
 
 - Frontend: Vercel  
-🔗 [Acessar aplicação](https://gerenciamento-de-alunos-vinicius.vercel.app/)
+🔗 [Acessar aplicação](https://gestao-alunos.viniciusmarinho.dev.br/)
 
 > Projeto em desenvolvimento contínuo, podendo receber atualizações frequentes.
 
