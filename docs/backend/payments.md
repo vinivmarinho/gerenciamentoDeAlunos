@@ -1,96 +1,162 @@
 # Pagamentos — Backend
 
-Cobranças mensais por aluno: geração em lote no início do período e criação avulsa quando necessário.
+Cobranças mensais por aluno, com geração automática em lote e criação manual quando necessário.
+
+---
 
 ## Objetivo
 
-Registrar **uma cobrança por aluno por mês de referência**, com valor, vencimento e status (`Pendente`, `Pago`, `Atrasado`), sem duplicar o mesmo aluno no mesmo mês.
+O sistema registra **uma cobrança por aluno em cada mês de referência**, com valor, vencimento e status (`Pendente`, `Pago`, `Atrasado`).
+
+A regra principal é simples: não pode existir duas cobranças para o mesmo aluno no mesmo mês.
+
+---
 
 ## Decisões de desenho
 
-### Um pagamento por (aluno + mês)
+### Um pagamento por aluno por mês
 
-Índice único composto `(student, referenceMonth)` no banco. Tentativa de segunda cobrança para o mesmo par falha na persistência.
+O sistema não permite duplicar cobranças para o mesmo aluno e mês.
 
-**Por quê:** o mês de referência (`"2026-05"`) é a chave de negócio; evita cobrança duplicada por bug ou clique repetido.
+Isso é garantido por um índice único no banco:
 
-### `referenceMonth` em formato fixo
+(student + referenceMonth)
 
-String `YYYY-MM` (ex.: `2026-05`). Mês deve ser 01–12. Facilita ordenação, exibição e validação sem ambiguidade de timezone na string.
+Por quê: evita cobrança duplicada por erro do sistema ou requisição repetida.
 
-### Geração em lote só para alunos “ativos”
+---
 
-Busca alunos cujo `status` corresponde a “ativo” sem diferenciar maiúsculas/minúsculas. Inativos não entram no lote.
+### Mês de referência
 
-**Por quê:** mensalidade automática não deve cobrar quem saiu do quadro, desde que o status esteja correto no cadastro.
+O mês é salvo no formato:
 
-### Idempotência parcial no lote
+`YYYY-MM` (ex.: `2026-05`)
 
-Para cada aluno ativo: se já existir pagamento naquele `referenceMonth`, **pula** (não falha a operação inteira). `createdCount` informa quantos registros novos foram criados.
+Esse formato facilita validação, ordenação e evita problemas com datas completas e fuso horário.
+
+---
+
+### Geração em lote apenas para alunos ativos
+
+A geração automática considera apenas alunos com status ativo.
+
+Alunos inativos não entram no processo.
+
+Por quê: evita cobrar quem já saiu da escola, desde que o cadastro esteja atualizado.
+
+---
+
+### O lote ignora cobranças que já existem
+
+Ao gerar as mensalidades:
+
+- Se o aluno não tiver cobrança no mês, cria.
+- Se já existir, apenas ignora.
+
+O processo continua normalmente para os outros alunos.
+
+O campo `createdCount` mostra quantas cobranças novas foram criadas.
+
+---
 
 ### Valor e vencimento na geração
 
-- **Valor:** copiado de `monthlyFee` do aluno no momento da geração.
-- **Vencimento:** calculado a partir de `referenceMonth` + `dueDay` (padrão 10), limitado ao último dia válido do mês (ex.: vencimento dia 31 em fevereiro vira o último dia de fevereiro).
+- **Valor:** vem da `monthlyFee` do aluno no momento da geração.
+- **Vencimento:** calculado com base no `referenceMonth` + `dueDay` (padrão 10).
 
-### Criação avulsa sempre começa Pendente
+Se o dia ultrapassar o limite do mês (ex.: fevereiro), o sistema ajusta para o último dia válido.
 
-Mesmo que o cliente envie outro status no corpo, a API rejeita ou força `Pendente` na criação. Alteração para Pago/Atrasado é evolução futura (update ainda não exposto nas rotas atuais).
+---
+
+### Criação manual sempre começa como Pendente
+
+Mesmo que outro status seja enviado, a cobrança sempre é criada como `Pendente`.
+
+Alterações para `Pago` ou `Atrasado` serão feitas em etapas futuras.
+
+---
 
 ## Contrato da API
 
 | Ação | Método | Rota | Quando usar |
 |------|--------|------|-------------|
-| Gerar mensalidades | POST | `/payments/generate` | Início do mês — todos os ativos |
-| Criar pagamento | POST | `/payments/` | Um aluno, valor/data definidos manualmente |
+| Gerar mensalidades | POST | `/payments/generate` | Início do mês, para todos os alunos ativos |
+| Criar pagamento | POST | `/payments/` | Quando precisar criar uma cobrança manual |
 
-Não há `GET /payments` implementado no backend no momento — listagem na UI ainda depende de endpoint futuro.
+---
 
-### POST `/payments/generate`
+## POST `/payments/generate`
 
-| Campo | Obrigatório | Regra |
-|-------|-------------|--------|
-| `referenceMonth` | sim | `YYYY-MM` válido |
-| `dueDay` | não | 1–31; default 10 |
-
-**Sucesso** — `200` + `{ message, createdCount }`. Mensagens possíveis: N alunos gerados; nenhum ativo; nenhum novo (todos já tinham cobrança naquele mês).
-
-**Erro de entrada** — `400` se mês inválido ou `dueDay` fora do intervalo.
-
-### POST `/payments/`
+### Campos
 
 | Campo | Obrigatório | Regra |
-|-------|-------------|--------|
-| `student` | sim | ObjectId do aluno |
-| `referenceMonth` | sim | `YYYY-MM` |
-| `amount` | sim | número |
-| `dueDate` | sim | data |
-| `status` | não | na criação só `Pendente` é aceito |
+|-------|-------------|------|
+| referenceMonth | sim | formato YYYY-MM |
+| dueDay | não | 1 a 31 (padrão: 10) |
 
-**Sucesso** — `201` + mensagem e objeto `payment`.
+### Respostas
 
-**Duplicata** — Mesmo aluno + mesmo mês → erro do índice único (tipicamente `500` com mensagem do Mongo na resposta atual).
+- **200** → geração concluída com sucesso
+  - retorna mensagem e `createdCount`
+- **400** → dados inválidos
+
+---
+
+## POST `/payments/`
+
+### Campos
+
+| Campo | Obrigatório | Regra |
+|-------|-------------|------|
+| student | sim | ID do aluno |
+| referenceMonth | sim | YYYY-MM |
+| amount | sim | número |
+| dueDate | sim | data |
+| status | não | sempre será `Pendente` na criação |
+
+### Respostas
+
+- **201** → cobrança criada
+- **Erro de duplicidade** → aluno já possui cobrança no mês
+
+---
 
 ## Comportamento esperado
 
 ### Geração em lote
 
 1. Valida mês e dia de vencimento.
-2. Lista alunos ativos.
-3. Para cada um: se não existir cobrança no mês, cria com `amount = monthlyFee`, `status = Pendente`, `dueDate` calculado.
-4. Retorna quantos registros **novos** foram criados (pode ser 0).
+2. Busca alunos ativos.
+3. Para cada aluno:
+   - cria cobrança se não existir
+   - ignora se já existir
+4. Retorna quantos registros novos foram criados.
 
-### Criação individual
+---
 
-Uma cobrança manual (ajuste, entrada fora do lote). Mesmas regras de mês e unicidade. Status na criação deve ser pendente ou omitido.
+### Criação manual
+
+Cria uma cobrança específica para um aluno.
+
+As mesmas regras de mês e duplicidade continuam valendo.
+
+---
 
 ## Integração
 
 | Módulo | Relação |
 |--------|---------|
-| Alunos | Fonte de `monthlyFee` e filtro de status na geração ([students](./students.md)) |
-| Frontend | Tela financeiro em construção; ver [../frontend/financeiro.md](../frontend/financeiro.md) |
+| Alunos | Fonte de valor (`monthlyFee`) e status |
+| Frontend | Consome os dados de pagamentos e monta a tela financeira |
+
+---
 
 ## Onde olhar no código
 
-`backend/src/` — model `payment` (enum de status + índice único), controller e router sob `/payments`.
+Tudo está dentro de:
+
+`backend/src/`
+
+- Model: payment (índice único + status)
+- Controller: regras de criação e geração
+- Routes: endpoints `/payments`

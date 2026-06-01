@@ -1,71 +1,139 @@
 # Turmas — Backend
 
-API para agrupar alunos em turmas (nome, professor, lista de matriculados).
+API para agrupar alunos em turmas (nome, professor e lista de matriculados).
+
+---
 
 ## Objetivo
 
-Representar uma turma escolar e **quem está matriculado**, sem duplicar dados do aluno (nome, email, mensalidade continuam no cadastro de alunos).
+Representar uma turma escolar e **quem está matriculado**, sem duplicar dados do aluno.
+
+Informações como nome, email e mensalidade continuam no cadastro de alunos.
+
+---
 
 ## Decisões de desenho
 
-### Ligação unidirecional turma → aluno
+### Turma aponta para alunos (não o contrário)
 
-A turma guarda um array de IDs de alunos. O documento de **aluno não tem campo de turma**.
+A turma guarda um array de IDs de alunos. O aluno não tem campo de turma.
 
-**Por quê:** matrícula é “esta turma inclui estes alunos”; um aluno em várias turmas seria possível no futuro sem migrar schema de aluno. O custo: listar turma não traz nomes — o cliente busca alunos separadamente e cruza IDs.
+**Por quê:** matrícula funciona como “esta turma contém estes alunos”.
+
+Isso permite que, no futuro, um aluno participe de várias turmas sem precisar mudar o schema do aluno.
+
+O custo disso é que a turma não traz os dados completos dos alunos — o frontend precisa buscar em `/students` e cruzar os IDs.
+
+---
 
 ### Sem populate na listagem
 
-`GET /classes` devolve `students` como ObjectIds, não objetos populados. Reduz payload e acoplamento; quem precisa de nome/email já tem ou busca `/students`.
+`GET /classes` retorna apenas os IDs dos alunos em `students`, sem expandir os dados.
 
-### Matrícula pelo array completo
+Isso reduz o tamanho da resposta e mantém a API mais simples.
 
-Incluir ou remover aluno é `PUT` enviando o array **inteiro** de IDs em `students`. Não há rota `/classes/:id/students/:studentId`.
+Quem precisa de nome ou email deve buscar os alunos separadamente.
 
-**Por quê:** CRUD simples; o painel da turma no frontend já mantém a lista em memória e envia tudo ao salvar.
+---
 
-### Excluir turma não exclui alunos
+### Matrícula é feita substituindo o array inteiro
 
-Apagar turma remove só o documento da turma. Registros em `Student` permanecem.
+Para adicionar ou remover alunos, o sistema usa `PUT /classes/:id` enviando o array completo de `students`.
+
+Não existe rota específica para adicionar/remover um aluno individualmente.
+
+**Por quê:** o frontend já mantém a lista completa em memória e envia o estado final da turma.
+
+---
+
+### Exclusão de turma não afeta alunos
+
+Ao excluir uma turma, apenas o documento da turma é removido.
+
+Os alunos continuam existindo normalmente no sistema.
+
+---
 
 ### Validação mínima na rota
 
-Diferente de alunos, não há middleware de validação no router — erros de schema ou campos vazios tendem a aparecer como `500` ou falha do Mongoose.
+Diferente do módulo de alunos, não há middleware de validação nas rotas.
+
+Isso significa que erros de entrada podem aparecer como falhas do Mongoose ou respostas `500`, caso não sejam tratados no controller.
+
+---
 
 ## Contrato da API
 
 | Ação | Método | Rota | Quando usar |
 |------|--------|------|-------------|
-| Listar | GET | `/classes` | Todas as turmas |
-| Criar | POST | `/classes` | Nova turma |
-| Atualizar | PUT | `/classes/:id` | Nome, professor e/ou lista de alunos |
+| Listar | GET | `/classes` | Buscar todas as turmas |
+| Criar | POST | `/classes` | Criar nova turma |
+| Atualizar | PUT | `/classes/:id` | Alterar turma ou alunos |
 | Excluir | DELETE | `/classes/:id` | Remover turma |
 
-### Campos do recurso
+---
+
+## Campos do recurso
 
 | Campo | Tipo | Regra |
 |-------|------|--------|
-| `name` | string | Obrigatório no schema |
-| `teacher` | string | Obrigatório no schema |
-| `students` | array de ObjectId | Opcional na criação; default prático é `[]` |
+| name | string | Obrigatório no schema |
+| teacher | string | Obrigatório no schema |
+| students | array de ObjectId | Opcional na criação (default: `[]`) |
+
+---
 
 ## Comportamento esperado
 
-**Listar** — `200` com array de turmas; cada item inclui `students` como lista de IDs (pode estar vazia).
+### Listar
 
-**Criar** — `201` + mensagem com nome da turma. Frontend costuma criar com `students: []` e matricular depois no painel.
+Retorna `200` com todas as turmas.
 
-**Atualizar** — Corpo parcial ou completo (`name`, `teacher`, `students`). `200` + `{ classGroup }` atualizado. Matrícula/desmatrícula = substituir o array `students` pela lista desejada.
+Cada turma inclui `students` como lista de IDs (pode estar vazia).
 
-**Excluir** — Remove a turma; resposta em texto com o nome da turma. Alunos na base **não** são apagados.
+---
+
+### Criar
+
+Retorna `201` com mensagem de sucesso.
+
+O frontend geralmente cria a turma com `students: []` e adiciona alunos depois.
+
+---
+
+### Atualizar
+
+Pode atualizar `name`, `teacher` ou `students`.
+
+Retorna `200` com a turma atualizada.
+
+Para matrícula/desmatrícula, o array `students` é substituído por completo.
+
+---
+
+### Excluir
+
+Remove a turma do sistema.
+
+Retorna uma mensagem simples com o nome da turma removida.
+
+Os alunos não são afetados.
+
+---
 
 ## Integração
 
-| Consumidor | Comportamento |
-|------------|----------------|
-| Frontend — Turmas | Ao abrir a seção, carrega turmas **e** alunos; o painel cruza IDs com a lista de alunos ([../frontend/classes.md](../frontend/classes.md)) |
-| Pagamentos | Independente; mensalidade vem do aluno, não da turma |
+| Módulo | Relação |
+|--------|--------|
+| Frontend (Turmas) | Carrega turmas e alunos separadamente e cruza os dados |
+| Pagamentos | Não depende de turmas; usa apenas dados do aluno |
+
+---
 
 ## Onde olhar no código
 
-`backend/src/` — model de turma (`ClassModel`), controller e router com prefixo `/classes`.
+`backend/src/`
+
+- Model: `ClassModel`
+- Controller: regras de turma
+- Routes: `/classes`
