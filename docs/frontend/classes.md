@@ -1,53 +1,71 @@
 # Turmas — Frontend
 
-Tela de listagem e gerenciamento de turmas, com criação via modal e painel para editar turma, matricular/desmatricular alunos e excluir turma.
-
----
+Listagem de turmas, criação via modal e painel para editar turma, matricular/desmatricular alunos e excluir turma.
 
 ## Objetivo
 
-Gerenciar turmas e matrículas de forma visual.
-
-Como a API retorna apenas IDs de alunos dentro da turma, o frontend precisa cruzar essas informações para exibir nomes e permitir a matrícula.
-
----
+Gerenciar turmas e matrículas de forma visual, lidando com a limitação da API que retorna apenas IDs de alunos dentro das turmas.
 
 ## Decisões de desenho
 
-### Duas fontes de dados na seção de turmas
+### Duas fontes de dados na seção Turmas
 
-Ao entrar em **Turmas**, a aplicação carrega:
+Ao entrar em `turmas`, o app carrega **turmas** e **alunos**. O painel cruza `classGroup.students` (IDs) com a lista completa de alunos para mostrar nomes, buscar quem matricular e somar mensalidades.
 
-- lista de turmas
-- lista de alunos
+**Por quê:** alinhado à API sem populate ([../backend/classes.md](../backend/classes.md)).
 
-O painel usa essas duas fontes para cruzar os dados:
+### Matrícula local até salvar
 
-- `classGroup.students` (IDs)
-- lista completa de alunos
+No painel, adicionar/remover aluno altera um estado local (`enrolledIds`). Só ao salvar é enviado o array completo no PUT.
 
-Assim é possível:
-- mostrar nomes dos alunos
-- permitir matrícula
-- calcular total da turma
+**Por quê:** mesmo contrato do backend (array inteiro); evita uma requisição por clique.
 
-**Por quê:** a API não usa `populate`, então o frontend precisa fazer esse cruzamento manual ([../backend/classes.md](../backend/classes.md)).
+### Turma nova sem alunos
 
----
+Criação envia nome e professor com `students: []`. Matrícula ocorre no painel “Gerenciar”.
 
-### Matrícula só é enviada ao salvar
+### Soma de mensalidade no painel
 
-No painel da turma, adicionar ou remover alunos altera apenas um estado local (`enrolledIds`).
+Total exibido é calculado no cliente somando `monthlyFee` dos alunos matriculados na turma (utilitário compartilhado com métricas de alunos).
 
-A alteração só é enviada para o backend quando o usuário salva.
+## Comportamento esperado
 
-**Por quê:** a API trabalha com o array completo de alunos, então não faz sentido enviar uma requisição a cada clique.
+### Listagem
 
----
+- Grid de cards: nome, professor, contagem de alunos (tamanho do array de IDs).
+- Botão “Gerenciar” abre o painel da turma.
+- “Nova Turma” abre modal de criação.
 
-### Turma começa sem alunos
+### Criar turma
 
-Ao criar uma turma, ela sempre é enviada com:
+Modal com nome e professor → POST → lista de turmas recarregada → modal fecha em sucesso.
 
-```js id="qk9l2a"
-students: []
+### Painel (gerenciar)
+
+- Editar nome e professor.
+- Lista de matriculados com opção de remover da turma (ainda só no estado local até salvar).
+- Campo de busca para adicionar aluno: sugestões apenas entre alunos **não** matriculados nesta turma.
+- Salvar → PUT com `name`, `teacher`, `students` (array de IDs) → fecha painel em sucesso.
+- Excluir turma → confirmação → DELETE → recarrega turmas; alunos permanecem no sistema.
+
+### Loading
+
+Enquanto turmas carregam, mensagem de aguardo; lista vazia mostra texto de nenhuma turma cadastrada.
+
+## API usada
+
+Contrato: [../backend/classes.md](../backend/classes.md).
+
+| Ação do usuário | HTTP |
+|-----------------|------|
+| Abrir seção | GET `/classes` + GET `/students` |
+| Nova turma | POST `/classes` |
+| Salvar painel | PUT `/classes/:id` |
+| Excluir turma | DELETE `/classes/:id` |
+
+## Onde olhar no código
+
+- Fetch e callbacks: `frontend/src/App.jsx`
+- Listagem e modais: `frontend/src/components/Classes/`
+- Formulário de nova turma: `frontend/src/components/ClassForm/`
+- Painel de matrícula: `frontend/src/components/ClassPanel/`

@@ -95,7 +95,7 @@ Os componentes filhos não precisam conhecer ou repetir essa configuração.
 |------------|----------|
 | students.md | Tela e fluxo de alunos |
 | classes.md | Turmas e matrícula |
-| financeiro.md | Módulo financeiro (em evolução) |
+| finance.md | Módulo financeiro (em evolução) |
 | backend/rotas.md | Contratos da API |
 
 ---

@@ -20,7 +20,7 @@ Isso ajuda a documentação a continuar útil mesmo quando o código muda e evit
    - [App e navegação](./frontend/app.md)
    - [Alunos](./frontend/students.md)
    - [Turmas](./frontend/classes.md)
-   - [Financeiro](./frontend/financeiro.md)
+   - [Financeiro](./frontend/finance.md)
 
 ---
 
@@ -31,7 +31,7 @@ docs/
 ├── README.md           ← mapa do sistema de documentação
 ├── arquitetura.md
 ├── backend/
-│   ├── rotas.md
+│   ├── routes.md
 │   ├── students.md
 │   ├── classes.md
 │   └── payments.md
@@ -39,4 +39,4 @@ docs/
     ├── app.md
     ├── students.md
     ├── classes.md
-    └── financeiro.md
+    └── finance.md   
