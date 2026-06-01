@@ -6,7 +6,7 @@ Visão full stack do **Gerenciamento de Alunos**: um painel administrativo escol
 
 ## Objetivo do sistema
 
-Centralizar o cadastro de alunos, organização em turmas e (em evolução) presença e financeiro.
+Centralizar o cadastro de alunos, organização em turmas e financeiro.
 
 O sistema também fornece um dashboard para visualização rápida dos dados principais.
 
