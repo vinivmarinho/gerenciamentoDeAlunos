@@ -7,7 +7,7 @@ function isValidReferenceMonth(referenceMonth) {
     return month >=1 && month <=12;
 };
 
-// Retorna data válida de vencimento
+// Retorna data válida de vencimento.  
 function buildDueDate(referenceMonth, dueDay = 10 ) {
     const [year, month] = referenceMonth.split("-").map(Number); // Converte "YYYY-MM" em números separados: [year, month]
 
@@ -31,11 +31,12 @@ const generateMonthlyFees = async (req, res) => {
         }
 
         const day = Number(dueDay);
-        if (Number.isNan(day) || day < 1 || day > 31 ) {
+        if (Number.isNaN(day) || day < 1 || day > 31 ) {
             return res.status(400).json({
                 message: "dueDay deve estar entre os números 1 e 31"
             });
         }
+
         // Busca alunos ativos através do model "Student"
         const activeStudents = await Student.find({
             // Uso regex para ignorar "ativo" maiúsculo ou minúsculo
