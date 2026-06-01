@@ -29,7 +29,7 @@ const generateMonthlyFees = async (req, res) => {
                 message: "referenceMonth deve estar no formato YYYY-MM (ex: 2026-05)"
             });
         }
-
+        
         const day = Number(dueDay);
         if (Number.isNaN(day) || day < 1 || day > 31 ) {
             return res.status(400).json({

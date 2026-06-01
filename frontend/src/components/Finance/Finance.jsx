@@ -6,7 +6,7 @@ export default function Finance() {
             <div className="page-header">
                 <h1><i className="fas fa-money-bill-wave"></i> Financeiro</h1>
                 <button className="btn-primary" id="newPaymentBtn">
-                    <i className="fas fa-plus"></i> Gerar Mensalidade
+                    <i className="fas fa-plus"></i> Gerar Mensalidades do Mês
                 </button>
             </div>
 
