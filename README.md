@@ -22,6 +22,8 @@
 
 Sistema full stack para gerenciamento de alunos, turmas, presença e controle financeiro, desenvolvido com React no frontend e Node.js/Express no backend.
 
+📖 [Documentação de desenvolvimento](./docs/README.md)
+
 O projeto simula um sistema administrativo escolar com dashboard interativo, API REST e integração com banco de dados MongoDB, com foco em prática de arquitetura full stack e organização de aplicações reais.
 
 ⚠️ Projeto ainda em desenvolvimento, podendo sofrer alterações e melhorias constantes.
