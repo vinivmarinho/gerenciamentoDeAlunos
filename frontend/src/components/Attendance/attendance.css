@@ -7,7 +7,7 @@
 }
 
 .attendance-table {
-    background: white;
+    background: var(--bg-surface);
     border-radius: 16px;
     box-shadow: var(--shadow);
     overflow: hidden;

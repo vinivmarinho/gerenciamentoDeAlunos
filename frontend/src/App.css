@@ -27,7 +27,7 @@
 
 .page-header h1 {
     font-size: 2rem;
-    color: var(--dark-color);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -82,7 +82,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--bg-surface);
     border-top: 1px solid var(--border-color);
     padding: 0.75rem 0;
     z-index: 999;

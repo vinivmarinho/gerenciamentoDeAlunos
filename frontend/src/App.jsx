@@ -11,6 +11,7 @@ import Finance from './components/Finance/Finance.jsx';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getTotalMonthlyFees, getActiveStudentsPercentage, getActiveStudents, getStudentsCountByShift } from './utils/students.js';
+import useTheme from './hooks/useTheme.js';
 
 const API_URL = "https://gerenciamentodealunos.onrender.com/students";
 const API_URL_classes = "https://gerenciamentodealunos.onrender.com/classes";
@@ -23,6 +24,7 @@ function App() {
   const activeStudentsPercentage = getActiveStudentsPercentage(students);
   const activeStudents = getActiveStudents(students);
   const shifts = getStudentsCountByShift(students);
+  const { theme, toggleTheme } = useTheme();
 
   const showStudents = useCallback(async () => {
     try {
@@ -262,9 +264,14 @@ function App() {
 
   return (
     <>
-        <ToastContainer />
+        <ToastContainer theme={theme} />
         {/* SideBar controla a mudança do state */}
-       <SideBar activeSection={activeSection} setActiveSection={setActiveSection} />
+       <SideBar
+         activeSection={activeSection}
+         setActiveSection={setActiveSection}
+         theme={theme}
+         toggleTheme={toggleTheme}
+       />
        <MobileNav activeSection={activeSection} setActiveSection={setActiveSection} />
        <main className="main-content">
           {renderComponent()}
