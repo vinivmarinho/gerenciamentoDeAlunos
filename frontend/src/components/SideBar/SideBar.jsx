@@ -1,7 +1,7 @@
 import "./sidebar.css"
 import { useState } from "react";
 
-export default function SideBar({ activeSection, setActiveSection }) {
+export default function SideBar({ activeSection, setActiveSection, theme, toggleTheme }) {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
 
     const handleMenuClick = (section) => {
@@ -53,6 +53,16 @@ export default function SideBar({ activeSection, setActiveSection }) {
                     </button>
 
                 </nav>
+
+                <button
+                    type="button"
+                    className="theme-toggle"
+                    onClick={toggleTheme}
+                    aria-label={theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+                >
+                    <i className={theme === "dark" ? "fas fa-sun" : "fas fa-moon"}></i>
+                    {theme === "dark" ? "Modo claro" : "Modo escuro"}
+                </button>
 
             </div>
             
