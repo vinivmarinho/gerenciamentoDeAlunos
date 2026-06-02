@@ -16,20 +16,29 @@
   --border-color: #e2e8f0;
   --shadow: 0 4px 6px -1px rgba(0, 0,0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0,0, 0.1);
-  
+
+  --bg-body: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --bg-surface: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #64748b;
 }
+
 /* Tudo que tiver o seletor "data-theme" igual a "dark"*/
 [data-theme="dark"] {
   --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   --bg-surface: #1e293b;
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
+  --dark-color: #f1f5f9;
+  --light-color: #334155;
   --border-color: #334155;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: var(--bg-body);
     min-height: 100vh;
-    color: var(--dark-color);
+    color: var(--text-primary);
 }
