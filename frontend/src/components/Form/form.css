@@ -11,6 +11,7 @@
     backdrop-filter: blur(6px);
 }
 
+/* Caixa modal do form. Onde fica o conteúdo */
 .form-modal {
     position: relative; /* Vira referência de posição para elementos "absolute" dentro */
     width: 100%;
@@ -37,6 +38,7 @@
     background-color: #d1d5db;
 }
 
+/* Formulários em geral*/
 .student-form {
     display: flex;
     flex-direction: column;

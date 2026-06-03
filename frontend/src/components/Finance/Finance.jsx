@@ -1,5 +1,9 @@
 import "./finance.css";
 export default function Finance() {
+    const [showForm, setShowForm] = useState(false);
+
+    
+
     return(
         <section id="finance">
 
