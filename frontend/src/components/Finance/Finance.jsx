@@ -1,15 +1,15 @@
 import "./finance.css";
+import { useState } from "react";
+import FinanceForm from "../FinanceForm/FinanceForm.jsx"
 export default function Finance() {
     const [showForm, setShowForm] = useState(false);
-
     
-
     return(
         <section id="finance">
 
             <div className="page-header">
                 <h1><i className="fas fa-money-bill-wave"></i> Financeiro</h1>
-                <button className="btn-primary" id="newPaymentBtn">
+                <button className="btn-primary" id="newPaymentBtn" onClick={() => setShowForm(true)}>
                     <i className="fas fa-plus"></i> Gerar Mensalidade
                 </button>
             </div>
@@ -55,9 +55,21 @@ export default function Finance() {
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
+            {showForm && (
+                <div className="form-modal-backdrop">
+                    <div className="form-modal">
+                        <button
+                            type="button"
+                            className="form-modal-close"
+                            aria-label="fechar formulário"
+                        >    
+                        X
+                        </button>
+                        <FinanceForm />
+                    </div>
+                </div>
+            )}
         </section>
     )
 }
