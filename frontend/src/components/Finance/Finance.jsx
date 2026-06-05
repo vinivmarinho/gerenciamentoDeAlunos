@@ -59,7 +59,8 @@ export default function Finance() {
 
             {showForm && (
                 <div className="form-modal-backdrop" onClick={() => setShowForm(false)}>
-                    <div className="form-modal">
+                    {/* stopPropagation impede que ao clicar dentro do form ele desapareça */}
+                    <div className="form-modal" onClick={(event) => event.stopPropagation()}>
                         <button
                             type="button"
                             className="form-modal-close"
