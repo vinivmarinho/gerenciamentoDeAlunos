@@ -56,13 +56,15 @@ export default function Finance() {
                     </table>
                 </div>
             </div>
+
             {showForm && (
-                <div className="form-modal-backdrop">
+                <div className="form-modal-backdrop" onClick={() => setShowForm(false)}>
                     <div className="form-modal">
                         <button
                             type="button"
                             className="form-modal-close"
                             aria-label="fechar formulário"
+                            onClick={() => setShowForm(false)} /* MUDEI AQUI */
                         >    
                         X
                         </button>
