@@ -3,7 +3,7 @@ import { useState } from "react";
 import FinanceForm from "../FinanceForm/FinanceForm.jsx"
 export default function Finance() {
     const [showForm, setShowForm] = useState(false);
-    
+
     return(
         <section id="finance">
 

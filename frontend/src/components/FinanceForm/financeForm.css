@@ -1,0 +1,11 @@
+.monthly-fee-radio{
+    display: none;
+}
+
+.monthly-fee-radio + label::before{
+    content: "(  )";
+    cursor: pointer;
+}
+.monthly-fee-radio:checked + label::before{
+    content: "( X )"
+}
