@@ -9,3 +9,62 @@
 .monthly-fee-radio:checked + label::before{
     content: "( X )"
 }
+
+.search-autocomplete {
+    position: relative;
+    width: 100%;
+    margin-top: 0.75rem;
+}
+
+.search-autocomplete input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.35rem 0;
+    list-style: none;
+    background: var(--bg-surface);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.autocomplete-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    transition: background 0.15s ease;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item:focus-visible {
+    background: var(--light-color);
+    outline: none;
+}
+
+.autocomplete-name {
+    font-weight: 600;
+    color: var(--dark-color, #1e293b);
+}
+
+.autocomplete-meta {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+}

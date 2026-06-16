@@ -1,7 +1,8 @@
 import "./finance.css";
 import { useState } from "react";
-import FinanceForm from "../FinanceForm/FinanceForm.jsx"
-export default function Finance() {
+import FinanceForm from "../../FinanceForm/FinanceForm.jsx";
+
+export default function Finance({ students = [] }) {
     const [showForm, setShowForm] = useState(false);
 
     return(
@@ -69,7 +70,7 @@ export default function Finance() {
                         >    
                         X
                         </button>
-                        <FinanceForm />
+                        <FinanceForm students={students} />
                     </div>
                 </div>
             )}

@@ -247,7 +247,7 @@ function App() {
       case 'presenca':
         return <Attendance />;
       case 'financeiro':
-        return <Finance />;
+        return <Finance students={students} />;
       default:
         return (
           <Dashboard
