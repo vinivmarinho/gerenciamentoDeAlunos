@@ -1,6 +1,6 @@
 import "./finance.css";
 import { useState } from "react";
-import FinanceForm from "../../FinanceForm/FinanceForm.jsx";
+import FinanceForm from "../FinanceForm/FinanceForm.jsx";
 
 export default function Finance({ students = [] }) {
     const [showForm, setShowForm] = useState(false);
