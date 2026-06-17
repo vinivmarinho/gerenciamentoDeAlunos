@@ -10,6 +10,7 @@ export default function FinanceForm({ students = [] }) {
 
     const activeStudents = students.filter((student) => student.status === "ativo");
 
+    /* Verifica clique fora do formulário */
     useEffect(() => {
         function handleClickOutside(event) {
             if (autoCompleteRef.current && !autoCompleteRef.current.contains(event.target)) {
@@ -26,7 +27,7 @@ export default function FinanceForm({ students = [] }) {
     const suggestions = normalizedQuery
         ? activeStudents.filter((student) => student.name.toLowerCase().includes(normalizedQuery))
         : [];
-
+    
     function handleSelectSuggestion(student) {
         setSearchQuery(student.name);
         setSelectedStudentId(student._id ?? student.id);

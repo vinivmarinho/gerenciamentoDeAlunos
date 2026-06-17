@@ -15,6 +15,7 @@ import useTheme from './hooks/useTheme.js';
 
 const API_URL = "https://gerenciamentodealunos.onrender.com/students";
 const API_URL_classes = "https://gerenciamentodealunos.onrender.com/classes";
+const API_URL_payments = "https://gerenciamentodealunos.onrender.com/payments";
 
 function App() {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -206,8 +207,28 @@ function App() {
       showStudents();
     }
   }, [activeSection, showClasses, showStudents]);
+  
+  const generateMonthlyFees = useCallback(async () => {
+    const today = new Date();
+    const referenceMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
 
-
+      try {
+        const response = await fetch(`${API_URL_payments}/generate`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            referenceMonth,
+            dueDay: 10,
+          }),
+        });
+        const data = await response.json();
+        toast.success("Mensalidades geradas com sucesso✅")
+      } catch(error) {
+          toast.error("Não foi possível gerar as mensalidades")
+      }
+  }) 
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
     // Sempre que o state "activeSection" mudar, ele é chamado
