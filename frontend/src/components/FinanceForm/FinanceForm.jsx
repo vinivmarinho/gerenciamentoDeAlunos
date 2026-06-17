@@ -74,7 +74,7 @@ export default function FinanceForm({ students = [] }) {
             </label>
 
             {monthlyFeeType === "individual" && (
-                <div className="search-autocomplete" ref={autoCompleteRef}>
+                <div className="search-autocomplete finance-autocomplete" ref={autoCompleteRef}>
                     <input
                         type="text"
                         id="searchFinanceStudent"
