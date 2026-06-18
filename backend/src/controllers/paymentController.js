@@ -87,7 +87,7 @@ const generateMonthlyFees = async (req, res) => {
 /* Criar pagamento */
 const createPayment = async(req, res) => {
     try{
-        const { student, referenceMonth, amount, dueDate, status} = req.body;
+        const { student, referenceMonth, amount, dueDay = 10, status} = req.body;
 
         // Valida status
         const validStatuses = ["Pendente", "Pago", "Atrasado"];
@@ -103,12 +103,20 @@ const createPayment = async(req, res) => {
             })
         }
 
-
         if (!isValidReferenceMonth(referenceMonth)) {
             return res.status(400).json({
                 message: "referenceMonth deve estar no formato YYYY-MM"
             });
         }
+
+        const day = Number(dueDay);
+        if (Number.isNaN(day) || day < 1 || day > 31) {
+            return res.status(400).json({
+                message: "dueDay deve estar entre os números 1 e 31"
+            });
+        }
+
+        const dueDate = buildDueDate(referenceMonth, day);
 
         const payment = await paymentModel.create({
             student,
