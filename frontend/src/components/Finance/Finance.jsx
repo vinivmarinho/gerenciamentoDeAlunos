@@ -2,7 +2,7 @@ import "./finance.css";
 import { useState } from "react";
 import FinanceForm from "../FinanceForm/FinanceForm.jsx";
 
-export default function Finance({ students = [] }) {
+export default function Finance({ students = [], generateMonthlyFees }) {
     const [showForm, setShowForm] = useState(false);
 
     return(
@@ -66,11 +66,11 @@ export default function Finance({ students = [] }) {
                             type="button"
                             className="form-modal-close"
                             aria-label="fechar formulário"
-                            onClick={() => setShowForm(false)} /* MUDEI AQUI */
+                            onClick={() => setShowForm(false)} 
                         >    
                         X
                         </button>
-                        <FinanceForm students={students} />
+                        <FinanceForm students={students} generateMonthlyFees={generateMonthlyFees} setShowForm={setShowForm} />
                     </div>
                 </div>
             )}

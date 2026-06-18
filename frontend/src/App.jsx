@@ -224,9 +224,11 @@ function App() {
           }),
         });
         const data = await response.json();
-        toast.success("Mensalidades geradas com sucesso✅")
+        toast.success("Mensalidades geradas com sucesso✅");
+        return true;
       } catch(error) {
-          toast.error("Não foi possível gerar as mensalidades")
+          toast.error("Não foi possível gerar as mensalidades");
+          return false;
       }
   }) 
   // Função usa switch case para controlar o componente que irá aparecer na tela
@@ -268,7 +270,7 @@ function App() {
       case 'presenca':
         return <Attendance />;
       case 'financeiro':
-        return <Finance students={students} />;
+        return <Finance students={students} generateMonthlyFees={generateMonthlyFees} />;
       default:
         return (
           <Dashboard

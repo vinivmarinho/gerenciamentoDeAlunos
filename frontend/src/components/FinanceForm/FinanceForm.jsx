@@ -1,7 +1,7 @@
 import "./financeForm.css";
 import { useState, useEffect, useRef } from "react";
 
-export default function FinanceForm({ students = [] }) {
+export default function FinanceForm({ students = [], generateMonthlyFees, setShowForm }) {
     const [monthlyFeeType, setMonthlyFeeType] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedStudentId, setSelectedStudentId] = useState(null);
@@ -42,9 +42,17 @@ export default function FinanceForm({ students = [] }) {
             setShowSuggestions(false);
         }
     }
-
+    async function handleSubmit(event) {
+        event.preventDefault();
+        if (monthlyFeeType === "all") {
+            const ok = await generateMonthlyFees();
+            if (!ok) return;
+        }
+        setShowForm(false);
+    };
+    
     return(
-        <form className="student-form">
+        <form className="student-form" onSubmit={handleSubmit}>
             <h2>Gerar mensalidades</h2>
             <input
             className="monthly-fee-radio"
