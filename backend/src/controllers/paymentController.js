@@ -7,7 +7,12 @@ function isValidReferenceMonth(referenceMonth) {
     return month >=1 && month <=12;
 };
 
-// Retorna data válida de vencimento.  
+function getCurrentReferenceMonth() {
+    const today = new Date();
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
+}
+
+// Retorna data válida de vencimento.
 function buildDueDate(referenceMonth, dueDay = 10 ) {
     const [year, month] = referenceMonth.split("-").map(Number); // Converte "YYYY-MM" em números separados: [year, month]
 
@@ -22,9 +27,10 @@ function buildDueDate(referenceMonth, dueDay = 10 ) {
 /* Gera mensalidades para todos os alunos ativos */
 const generateMonthlyFees = async (req, res) => {
     try {
-        const { referenceMonth, dueDay = 10} = req.body;
+        const { referenceMonth: referenceMonthFromBody, dueDay = 10} = req.body;
+        const referenceMonth = referenceMonthFromBody || getCurrentReferenceMonth();
 
-        if (!referenceMonth || !isValidReferenceMonth(referenceMonth)) {
+        if (!isValidReferenceMonth(referenceMonth)) {
             return res.status(400).json({
                 message: "referenceMonth deve estar no formato YYYY-MM (ex: 2026-05)"
             });
@@ -87,7 +93,8 @@ const generateMonthlyFees = async (req, res) => {
 /* Criar pagamento */
 const createPayment = async(req, res) => {
     try{
-        const { student, referenceMonth, amount, dueDay = 10, status} = req.body;
+        const { student, referenceMonth: referenceMonthFromBody, amount, dueDay = 10, status} = req.body;
+        const referenceMonth = referenceMonthFromBody || getCurrentReferenceMonth();
 
         // Valida status
         const validStatuses = ["Pendente", "Pago", "Atrasado"];

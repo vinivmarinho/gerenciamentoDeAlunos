@@ -108,9 +108,9 @@ function App() {
     }
   }, [showStudents]);
 
-  /* Carrega alunos no dashboard e na seção de alunos */
+  /* Carrega alunos no dashboard, alunos, turmas e financeiro */
   useEffect(() => {
-    if (activeSection === 'alunos' || activeSection === 'dashboard') {
+    if (activeSection === 'alunos' || activeSection === 'dashboard' || activeSection === 'financeiro') {
       showStudents();
     }
   }, [activeSection, showStudents]);
@@ -209,9 +209,6 @@ function App() {
   }, [activeSection, showClasses, showStudents]);
   
   const generateMonthlyFees = useCallback(async () => {
-    const today = new Date();
-    const referenceMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
-
       try {
         const response = await fetch(`${API_URL_payments}/generate`, {
           method: "POST",
@@ -219,7 +216,6 @@ function App() {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            referenceMonth,
             dueDay: 10,
           }),
         });
@@ -230,7 +226,28 @@ function App() {
           toast.error("Não foi possível gerar as mensalidades");
           return false;
       }
-  }) 
+  }, []) 
+
+  const createPayment = useCallback(async (paymentData) => {
+    try {
+      const response = await fetch(API_URL_payments, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(paymentData),
+      });
+      if (!response.ok) {
+        throw new Error("Erro ao gerar mensalidade");
+      }
+      await response.json();
+      toast.success("Mensalidade gerada com sucesso✅");
+      return true;
+    } catch(error) {
+      toast.error("Não foi possível gerar a mensalidade");
+      return false;
+    }
+  }, [])
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
     // Sempre que o state "activeSection" mudar, ele é chamado
@@ -270,7 +287,7 @@ function App() {
       case 'presenca':
         return <Attendance />;
       case 'financeiro':
-        return <Finance students={students} generateMonthlyFees={generateMonthlyFees} />;
+        return <Finance students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} />;
       default:
         return (
           <Dashboard

@@ -1,10 +1,11 @@
 import "./financeForm.css";
 import { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
-export default function FinanceForm({ students = [], generateMonthlyFees, setShowForm }) {
+export default function FinanceForm({ students = [], generateMonthlyFees, createPayment, setShowForm }) {
     const [monthlyFeeType, setMonthlyFeeType] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedStudentId, setSelectedStudentId] = useState(null);
+    const [selectedStudent, setSelectedStudent] = useState(null);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const autoCompleteRef = useRef(null);
 
@@ -30,7 +31,7 @@ export default function FinanceForm({ students = [], generateMonthlyFees, setSho
     
     function handleSelectSuggestion(student) {
         setSearchQuery(student.name);
-        setSelectedStudentId(student._id ?? student.id);
+        setSelectedStudent(student);
         setShowSuggestions(false);
     }
 
@@ -38,14 +39,30 @@ export default function FinanceForm({ students = [], generateMonthlyFees, setSho
         setMonthlyFeeType(type);
         if (type === "all") {
             setSearchQuery("");
-            setSelectedStudentId(null);
+            setSelectedStudent(null);
             setShowSuggestions(false);
         }
     }
+    
     async function handleSubmit(event) {
         event.preventDefault();
         if (monthlyFeeType === "all") {
             const ok = await generateMonthlyFees();
+            if (!ok) return;
+        } else if (monthlyFeeType === "individual") {
+            if (!selectedStudent) {
+                toast.error("Selecione um aluno da lista");
+                return;
+            }
+
+            const paymentData = {
+                student: selectedStudent._id ?? selectedStudent.id,
+                amount: Number(selectedStudent.monthlyFee),
+                dueDay: 10,
+                status: "Pendente",
+            };
+
+            const ok = await createPayment(paymentData);
             if (!ok) return;
         }
         setShowForm(false);
@@ -91,7 +108,7 @@ export default function FinanceForm({ students = [], generateMonthlyFees, setSho
                         value={searchQuery}
                         onChange={(event) => {
                             setSearchQuery(event.target.value);
-                            setSelectedStudentId(null);
+                            setSelectedStudent(null);
                             setShowSuggestions(true);
                         }}
                         onFocus={() => setShowSuggestions(true)}
@@ -131,3 +148,4 @@ export default function FinanceForm({ students = [], generateMonthlyFees, setSho
         </form>
     )
 }
+
