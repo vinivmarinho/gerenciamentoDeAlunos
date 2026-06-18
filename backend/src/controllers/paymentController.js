@@ -90,7 +90,7 @@ const generateMonthlyFees = async (req, res) => {
     }
 };
 
-/* Criar pagamento */
+
 const createPayment = async(req, res) => {
     try{
         const { student, referenceMonth: referenceMonthFromBody, amount, dueDay = 10, status} = req.body;
@@ -146,4 +146,13 @@ const createPayment = async(req, res) => {
     }
 };
 
-module.exports = { createPayment, generateMonthlyFees };
+const showPayments = async(req, res) => {
+    try {
+        const payments = await paymentModel.find();
+        res.status(200).json(payments);
+    } catch(error) {
+        res.status(500).json(`Erro: ${error}`)
+    }
+};
+
+module.exports = { createPayment, generateMonthlyFees, showPayments };
