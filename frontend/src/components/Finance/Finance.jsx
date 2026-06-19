@@ -43,14 +43,32 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                                 </tr>
                             ) : payments.map(payment => {
                                 const paymentId = payment._id ?? payment.id;
+                                // Id do aluno relacionado ao pagamento
+                                const studentId = payment.student?._id ?? payment.student;
+                                //  Procura no array de alunos um aluno que tenha esse mesmo ID
+                                const student = students.find(
+                                    (s) => (s._id ?? s.id) === studentId
+                                );
+                                // Se aluno existir, pega o nome. Senão, mostra "Aluno não encontrado"
+                                const studentName = student?.name ?? "Aluno não encontrado";
 
                                 return(
                                     <tr key={paymentId}>
-                                        <td>Nome do aluno</td>
+                                        <td>{studentName}</td>
                                         <td>{payment.referenceMonth}</td>
-                                        <td>{payment.amount}</td>
+                                        <td>R$ {payment.amount}</td>
                                         <td>{payment.status}</td>
-                                        <td>{payment.dueDate}</td>
+                                        <td>Dia {new Date(payment.dueDate).getDate() + 1 }</td>
+                                        <td>
+                                            <button className="action-btn action-edit" title="Editar"
+                                            >
+                                                <i className="fas fa-edit"></i>
+                                            </button>
+                                            <button className="action-btn action-delete" title="excluir"
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 )
                             }) 
