@@ -2,7 +2,7 @@ import "./finance.css";
 import { useState } from "react";
 import FinanceForm from "../FinanceForm/FinanceForm.jsx";
 
-export default function Finance({ students = [], generateMonthlyFees, createPayment }) {
+export default function Finance({ students = [], generateMonthlyFees, createPayment, payments }) {
     const [showForm, setShowForm] = useState(false);
 
     return(
@@ -35,7 +35,27 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                             </tr>
                         </thead>
                         <tbody id="monthlyFeesTable">
-                           {/* Dados Futuros */}
+                        {payments.length === 0 ? (
+                                <tr>
+                                    <td colSpan="6" className="empty-search">
+                                        Nenhuma mensalidade encontrada
+                                    </td>
+                                </tr>
+                            ) : payments.map(payment => {
+                                const paymentId = payment._id ?? payment.id;
+
+                                return(
+                                    <tr key={paymentId}>
+                                        <td>Nome do aluno</td>
+                                        <td>{payment.referenceMonth}</td>
+                                        <td>{payment.amount}</td>
+                                        <td>{payment.status}</td>
+                                        <td>{payment.dueDate}</td>
+                                    </tr>
+                                )
+                            }) 
+                            
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -52,7 +72,7 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                             </tr>
                         </thead>
                         <tbody id="historicoTable">
-                            {/* Dados futuros */}
+                            
                         </tbody>
                     </table>
                 </div>

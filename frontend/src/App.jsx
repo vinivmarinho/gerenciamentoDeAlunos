@@ -26,6 +26,7 @@ function App() {
   const activeStudents = getActiveStudents(students);
   const shifts = getStudentsCountByShift(students);
   const { theme, toggleTheme } = useTheme();
+  const [payments, setPayments] = useState([]);
 
   const showStudents = useCallback(async () => {
     try {
@@ -134,6 +135,14 @@ function App() {
     }
   }, []);
 
+   // Quando entrar na seção "Turmas"
+   useEffect(() => {
+    if (activeSection === "turmas") {
+      showClasses();
+      showStudents();
+    }
+  }, [activeSection, showClasses, showStudents]);
+
   const createClass = useCallback(async (classData) => {
     try{
       const response = await fetch(API_URL_classes, {
@@ -200,13 +209,7 @@ function App() {
     }
   }, [showClasses]);
 
-  // Quando entrar na seção "Turmas"
-  useEffect(() => {
-    if (activeSection === "turmas") {
-      showClasses();
-      showStudents();
-    }
-  }, [activeSection, showClasses, showStudents]);
+ 
   
   const generateMonthlyFees = useCallback(async () => {
       try {
@@ -248,6 +251,22 @@ function App() {
       return false;
     }
   }, [])
+
+  const showPayments = useCallback(async () => {
+    try {
+      const response = await fetch(API_URL_payments);
+      const data = await response.json();
+      setPayments(data);
+    } catch(error) {
+      console.log(`Erro: ${error}`)
+    }
+  }, []);
+
+  useEffect(() => {
+    if (activeSection === "financeiro") {
+      showPayments()
+    };
+  }, [activeSection, showPayments])
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
     // Sempre que o state "activeSection" mudar, ele é chamado
@@ -287,7 +306,7 @@ function App() {
       case 'presenca':
         return <Attendance />;
       case 'financeiro':
-        return <Finance students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} />;
+        return <Finance students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} payments={payments} />;
       default:
         return (
           <Dashboard
