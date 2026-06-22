@@ -2,7 +2,7 @@ import "./finance.css";
 import { useState } from "react";
 import FinanceForm from "../FinanceForm/FinanceForm.jsx";
 
-export default function Finance({ students = [], generateMonthlyFees, createPayment, payments }) {
+export default function Finance({ students = [], generateMonthlyFees, createPayment, payments, deletePayment }) {
     const [showForm, setShowForm] = useState(false);
 
     return(
@@ -108,7 +108,7 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                         >    
                         X
                         </button>
-                        <FinanceForm students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} setShowForm={setShowForm} />
+                        <FinanceForm students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} setShowForm={setShowForm} deletePayment={deletePayment} />
                     </div>
                 </div>
             )}

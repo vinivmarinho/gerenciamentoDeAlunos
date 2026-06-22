@@ -2,7 +2,7 @@ import "./financeForm.css";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
-export default function FinanceForm({ students = [], generateMonthlyFees, createPayment, setShowForm }) {
+export default function FinanceForm({ students = [], generateMonthlyFees, createPayment, setShowForm, deletePayment }) {
     const [monthlyFeeType, setMonthlyFeeType] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedStudent, setSelectedStudent] = useState(null);

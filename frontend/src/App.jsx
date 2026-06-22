@@ -267,6 +267,21 @@ function App() {
       showPayments()
     };
   }, [activeSection, showPayments])
+
+  const deletePayment = useCallback(async (id) => {
+    try{
+      const response = await fetch(`${API_URL_payments}/:${id}`, {
+        method: "DELETE"
+      });
+      if (!response.ok) {
+        throw new Error("Erro ao deletar pagamento")
+      };
+      toast.success("Pagamento deletado com sucesso")
+    } catch(error) {
+      toast.error("Não foi possível deletar o pagamento")
+    }
+  });
+
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {
     // Sempre que o state "activeSection" mudar, ele é chamado
@@ -306,7 +321,7 @@ function App() {
       case 'presenca':
         return <Attendance />;
       case 'financeiro':
-        return <Finance students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} payments={payments} />;
+        return <Finance students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} payments={payments} deletePayment={deletePayment} />;
       default:
         return (
           <Dashboard
