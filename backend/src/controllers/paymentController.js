@@ -155,4 +155,15 @@ const showPayments = async(req, res) => {
     }
 };
 
-module.exports = { createPayment, generateMonthlyFees, showPayments };
+const deletePayment = async(req, res) => {
+    try{
+        const { id } = req.params;
+        const payment = await paymentModel.findById(id);
+        await paymentModel.findByIdAndDelete(id);
+        res.send("Pagamento deletado")
+    } catch(error) {
+        res.status(500).json({message: "Erro ao deletar pagamento"})
+    }
+};
+
+module.exports = { createPayment, generateMonthlyFees, showPayments, deletePayment };
