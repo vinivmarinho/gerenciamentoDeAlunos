@@ -4,6 +4,14 @@ import FinanceForm from "../FinanceForm/FinanceForm.jsx";
 
 export default function Finance({ students = [], generateMonthlyFees, createPayment, payments, deletePayment }) {
     const [showForm, setShowForm] = useState(false);
+    const [paymentToDelete, setPaymentToDelete] = useState(null);
+
+    async function handleDeletePayment(id) {
+        const ok = await deletePayment(id);
+        if (ok) {
+            setPaymentToDelete(null)
+        };
+    };
 
     return(
         <section id="finance">
@@ -65,6 +73,8 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                                                 <i className="fas fa-edit"></i>
                                             </button>
                                             <button className="action-btn action-delete" title="excluir"
+                                            /* O spread (...) copia todos os dados de payment*/
+                                            onClick={() => setPaymentToDelete({ ...payment, id:paymentId})}
                                             >
                                                 <i className="fas fa-trash"></i>
                                             </button>
@@ -109,6 +119,36 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                         X
                         </button>
                         <FinanceForm students={students} generateMonthlyFees={generateMonthlyFees} createPayment={createPayment} setShowForm={setShowForm} deletePayment={deletePayment} />
+                    </div>
+                </div>
+            )}
+
+            {paymentToDelete && (
+                <div className="confirm-modal-backdrop" onClick={() => setPaymentToDelete(null)}>
+                    <div className="confirm-delete-card" onClick={(event) => event.stopPropagation()}>
+                        <h2>Excluir pagamento</h2>
+                        <p>
+                            Tem certeza de que deseja excluir este pagamento?
+                        </p>
+
+                        <div className="confirm-delete-actions">
+                            <button
+                                type="button"
+                                className="btn-cancel"
+                                onClick={() => setPaymentToDelete(null)}
+                            >
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="button"
+                                className="btn-danger"
+                                onClick={() => handleDeletePayment(paymentToDelete.id)}
+                            >
+                                Excluir
+                            </button>
+
+                        </div>
                     </div>
                 </div>
             )}

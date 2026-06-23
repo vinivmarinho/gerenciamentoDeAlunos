@@ -198,6 +198,7 @@ export default function Students({ students, loading, createStudent, deleteStude
                                     <button
                                         className="action-btn action-delete"
                                         title="Excluir"
+                                        /* O spread (...) copia todos os dados de student*/
                                         onClick={() => setStudentToDelete({ ...student, id: studentId })}
                                     >
                                         <i className="fas fa-trash"></i>

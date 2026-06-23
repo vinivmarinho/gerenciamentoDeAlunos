@@ -270,7 +270,7 @@ function App() {
 
   const deletePayment = useCallback(async (id) => {
     try{
-      const response = await fetch(`${API_URL_payments}/:${id}`, {
+      const response = await fetch(`${API_URL_payments}/${id}`, {
         method: "DELETE"
       });
       if (!response.ok) {
@@ -280,7 +280,7 @@ function App() {
     } catch(error) {
       toast.error("Não foi possível deletar o pagamento")
     }
-  });
+  }, [API_URL_payments]);
 
   // Função usa switch case para controlar o componente que irá aparecer na tela
   const renderComponent = () => {

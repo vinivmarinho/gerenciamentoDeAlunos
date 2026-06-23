@@ -158,9 +158,15 @@ const showPayments = async(req, res) => {
 const deletePayment = async(req, res) => {
     try{
         const { id } = req.params;
-        const payment = await paymentModel.findById(id);
-        await paymentModel.findByIdAndDelete(id);
+        const payment = await paymentModel.findByIdAndDelete(id);
+        if (!payment) {
+            return res.status(404).json({
+                message: "Pagamento não encontrado"
+            })
+        };
         res.send("Pagamento deletado")
+        
+        
     } catch(error) {
         res.status(500).json({message: "Erro ao deletar pagamento"})
     }
