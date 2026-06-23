@@ -21,7 +21,7 @@ export default function Form({ createStudent, updateStudent, studentToUpdate,set
             const ok = await createStudent({
                 name,
                 email,
-                monthlyFee,
+                monthlyFee: Number(monthlyFee),
                 studentShift,
                 status,
             });
