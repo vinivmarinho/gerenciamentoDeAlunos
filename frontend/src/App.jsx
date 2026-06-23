@@ -277,8 +277,10 @@ function App() {
         throw new Error("Erro ao deletar pagamento")
       };
       toast.success("Pagamento deletado com sucesso")
+      return true;
     } catch(error) {
       toast.error("Não foi possível deletar o pagamento")
+      return false;
     }
   }, [API_URL_payments]);
 
