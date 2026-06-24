@@ -1,10 +1,12 @@
 import "./finance.css";
 import { useState } from "react";
 import FinanceForm from "../FinanceForm/FinanceForm.jsx";
+import PaymentEditForm from "../FinanceForm/PaymentEditForm.jsx";
 
 export default function Finance({ students = [], generateMonthlyFees, createPayment, payments, deletePayment }) {
     const [showForm, setShowForm] = useState(false);
     const [paymentToDelete, setPaymentToDelete] = useState(null);
+    const [paymentToUpdate, setPaymentToUpdate] = useState(null);
 
     async function handleDeletePayment(id) {
         const ok = await deletePayment(id);
@@ -69,6 +71,7 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                                         <td>Dia {new Date(payment.dueDate).getDate() + 1 }</td>
                                         <td>
                                             <button className="action-btn action-edit" title="Editar"
+                                            onClick={() => setPaymentToUpdate({ ...payment, id:paymentId})}
                                             >
                                                 <i className="fas fa-edit"></i>
                                             </button>
@@ -149,6 +152,23 @@ export default function Finance({ students = [], generateMonthlyFees, createPaym
                             </button>
 
                         </div>
+                    </div>
+                </div>
+            )}
+            {paymentToUpdate && (
+                /* Ao clicar fora do form, ele desaparece*/
+                <div className="form-modal-backdrop" onClick={() => setPaymentToUpdate(null)}>
+                    {/* stopPropagation impede que ao clicar dentro do form ele desapareça */}
+                    <div className="form-modal" onClick={(event) => event.stopPropagation()}>
+                        <button
+                            type="button"
+                            className="form-modal-close"
+                            onClick={() => setPaymentToUpdate(null)}
+                            aria-label="Fechar formulario"
+                        >
+                            X
+                        </button>
+                        <PaymentEditForm />
                     </div>
                 </div>
             )}
