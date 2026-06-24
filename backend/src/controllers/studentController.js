@@ -1,4 +1,6 @@
 const Student = require("../models/student");
+const ClassModel = require("../models/class");
+
 // Rota teste
 const health = async(req, res) => {
     res.status(200).json({message: "Rota health encontrada"})
@@ -33,6 +35,12 @@ const deleteStudent = async(req, res) => {
     try{
         const {id } = req.params; // Parâmetros da requisição
         const student = await Student.findById(id);
+        /* Procura as turmas que tenham esse aluno e remove o seu id do arrray */
+        await ClassModel.updateMany(
+            { students: id},
+            { $pull: { students: id} } 
+        );
+
         await Student.findByIdAndDelete(id);
         res.send(`Aluno ${student.name} foi deletado `);
     } catch(error) {
